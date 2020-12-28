@@ -1,0 +1,23 @@
+package redmain.model.role;
+
+import javax.xml.bind.annotation.XmlType;
+import java.util.stream.Stream;
+
+public enum IssuesVisibility {
+    ALL ("Все задачи"),
+    DEFAULT("Только общие задачи"),
+    OWN ("Задачи созданные и назначенные пользователю");
+
+    public final String description;
+
+    IssuesVisibility(String description) {
+        this.description = description;
+    }
+
+    public static IssuesVisibility of (String description){
+        return Stream.of(values())
+                .filter(it -> description.equals(description))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Не найден IssuesVisibility по описанию " + description));
+    }
+}
