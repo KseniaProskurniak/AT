@@ -3,10 +3,11 @@ package redmain.model.role;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import redmain.model.Generatable;
 
 @Data
 @NoArgsConstructor
-public class Role {
+public class Role implements Generatable<Role> {
     private Integer id;
     private Integer position;
     private Integer builtin;
@@ -41,5 +42,22 @@ public class Role {
         System.out.println(role.permissions.toString());
     }
 
+    @Override
+    public Role read() {
+        //TODO получение из БД
+        return null;
+    }
+
+    @Override
+    public Role update() {
+        //TODO обновление из БД
+        return null;
+    }
+
+    @Override
+    public Role create() {
+        //TODO создание в БД
+        return null;
+    }
 }
 
