@@ -20,7 +20,7 @@ public class Role {
             "  add_issues: []\n" +
             "  edit_issues: []\n" +
             "  add_issue_notes: []\n" +
-            "  delete_issues: []\n"
+            "  delete_issues: []\n";
 
     public static void main(String[] args) {
         Role role = new Role();
