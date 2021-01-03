@@ -1,16 +1,15 @@
 package redmain.model.role;
 
+import lombok.AllArgsConstructor;
+
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 public enum UsersVisibility {
     ALL("Все активные пользователи"),
     NUMBERS_OF_VISIBLE_PROJECTS("Участники видимых проектов");
 
     public final String description;
-
-    UsersVisibility(String description) {
-        this.description = description;
-    }
 
     public static UsersVisibility of(String description) {
         return Stream.of(values())

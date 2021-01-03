@@ -1,7 +1,10 @@
 package redmain.model.role;
 
+import lombok.AllArgsConstructor;
+
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 public enum RolePermission {
 
     ADD_PROJECT("Создание проекта"),
@@ -14,11 +17,8 @@ public enum RolePermission {
     MANAGE_PUBLIC_QUERIES("Управление общими запросами"),
     SAVE_QUERIES("Сохранение запросов");
 
-    private String description;
+    public final String description;
 
-    RolePermission(String description) {
-        this.description = description;
-    }
 
     public static RolePermission of(String description) {
         return Stream.of(values())

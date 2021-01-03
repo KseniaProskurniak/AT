@@ -1,6 +1,15 @@
 package redmain.model.role;
 
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Role {
+    private Integer id;
+    private Integer position;
+    private Integer builtin;
     private String name;
     private Boolean assignable;
     private IssuesVisibility issuesVisibility;
@@ -31,5 +40,6 @@ public class Role {
 
         System.out.println(role.permissions.toString());
     }
+
 }
 

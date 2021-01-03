@@ -8,13 +8,25 @@
     <artifactId>AT</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <testng.version>7.1.0</testng.version>
+    </properties>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.1.0</version>
+            <version>${testng.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
