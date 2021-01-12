@@ -1,6 +1,6 @@
-package Human;
+package testing_explain.Human;
 
-import model.testing_explan_model.Human;
+import testing_explain.model.testing_explan_model.Human;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

@@ -1,4 +1,4 @@
-package model.testing_explan_model;
+package testing_explain.model.testing_explan_model;
 
 public class Human {
     String name;

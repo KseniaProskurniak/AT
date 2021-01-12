@@ -1,6 +1,6 @@
-package model;
+package testing_explain.model;
 
-import model.testing_explan_model.Calculator;
+import testing_explain.model.testing_explan_model.Calculator;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
