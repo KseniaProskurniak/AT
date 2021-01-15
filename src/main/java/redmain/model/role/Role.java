@@ -3,21 +3,26 @@ package redmain.model.role;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import redmain.db.request.RoleRequests;
 import redmain.model.Generatable;
+import redmain.utils.StringGenerators;
+
+import java.security.Permissions;
+import java.util.HashSet;
 
 @Data
 @NoArgsConstructor
 public class Role implements Generatable<Role> {
     private Integer id;
-    private Integer position;
-    private Integer builtin;
-    private String name;
-    private Boolean assignable;
-    private IssuesVisibility issuesVisibility;
-    private UsersVisibility usersVisibility;
-    private RolePermissions permissions;
-    private TimeEntriesVisibility timeEntriesVisibility;
-    private boolean allRolesManaged;
+    private Integer position = 1;
+    private Integer builtin = 0;
+    private String name ="Auto" + StringGenerators.randomEnglishString(8);
+    private Boolean assignable = true;
+    private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
+    private UsersVisibility usersVisibility = UsersVisibility.ALL;
+    private RolePermissions permissions = new RolePermissions(new HashSet<>());
+    private TimeEntriesVisibility timeEntriesVisibility = TimeEntriesVisibility.ALL;
+    private boolean allRolesManaged = true;
     private String settings = "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "permissions_all_trackers: !ruby/hash:ActiveSupport::HashWithIndifferentAccess\n" +
             "  view_issues: '1'\n" +
@@ -32,32 +37,33 @@ public class Role implements Generatable<Role> {
             "  add_issue_notes: []\n" +
             "  delete_issues: []\n";
 
-    public static void main(String[] args) {
-        Role role = new Role();
-        role.permissions = new RolePermissions();
-        role.permissions.add(RolePermission.ADD_PROJECT);
-        role.permissions.add(RolePermission.EDIT_PROJECT);
-        role.permissions.add(RolePermission.MANAGE_MEMBERS);
 
-        System.out.println(role.permissions.toString());
-    }
 
     @Override
     public Role read() {
-        //TODO получение из БД
-        return null;
+        Role role = RoleRequests.getRole(this);
+        this.id = role.id;
+        this.position = role.position;
+        this.builtin = role.builtin;
+        this.name = role.name;
+        this.assignable = role.assignable;
+        this.issuesVisibility = role.issuesVisibility;
+        this.usersVisibility = role.usersVisibility;
+        this.timeEntriesVisibility = role.timeEntriesVisibility;
+        this.allRolesManaged = role.allRolesManaged;
+        this.settings = role.settings;
+        return this;
     }
 
     @Override
     public Role update() {
-        //TODO обновление из БД
-        return null;
+        return RoleRequests.updateRole(this);
     }
 
     @Override
     public Role create() {
         //TODO создание в БД
-        return null;
+        return RoleRequests.addRole(this);
     }
 }
 
