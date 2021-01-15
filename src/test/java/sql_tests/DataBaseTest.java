@@ -26,7 +26,7 @@ public class DataBaseTest {
     }
 
     @Test
-    public void getRolesTest(){
+    public void getRolesTest() {
         Role role = new Role();
         role.setName("Пользователь1");
 
@@ -39,9 +39,11 @@ public class DataBaseTest {
     }
 
     @Test
-    public void updateRolesTest(){
-    Role role = new Role();
-    role.setName("Новая автотестовая роль");
+    public void updateRolesTest() {
+        Role role = new Role();
+        role.setName("Новая автотестовая роль");
 
-    RoleRequests.updateRole(role);
+        RoleRequests.updateRole(role);
+    }
 }
+
