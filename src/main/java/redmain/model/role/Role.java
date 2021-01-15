@@ -16,7 +16,7 @@ public class Role implements Generatable<Role> {
     private Integer id;
     private Integer position = 1;
     private Integer builtin = 0;
-    private String name ="Auto" + StringGenerators.randomEnglishString(8);
+    private String name = "Auto" + StringGenerators.randomEnglishString(8);
     private Boolean assignable = true;
     private IssuesVisibility issuesVisibility = IssuesVisibility.DEFAULT;
     private UsersVisibility usersVisibility = UsersVisibility.ALL;
@@ -36,8 +36,6 @@ public class Role implements Generatable<Role> {
             "  edit_issues: []\n" +
             "  add_issue_notes: []\n" +
             "  delete_issues: []\n";
-
-
 
     @Override
     public Role read() {

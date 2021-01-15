@@ -8,8 +8,8 @@ import java.util.stream.Stream;
 
 public class RolePermissions extends HashSet<RolePermission> {
 
-    public RolePermissions(RolePermission...permissions) {
-    this.addAll(Arrays.asList(permissions));
+    public RolePermissions(RolePermission... permissions) {
+        this.addAll(Arrays.asList(permissions));
     }
 
     public RolePermissions(Set<RolePermission> permissions) {
@@ -22,11 +22,12 @@ public class RolePermissions extends HashSet<RolePermission> {
         forEach(permission -> builder.append("- :").append(permission).append("\n"));
         return builder.toString();
     }
-    public static RolePermission of (String stringValue){
+
+    public static RolePermissions of(String stringValue) {
         Set<RolePermission> permissions = Stream.of(stringValue.split("\n"))
-                .filter(str ->str.startsWith("- :"))
+                .filter(str -> str.startsWith("- :"))
                 .map(str -> str.substring(3).toUpperCase())
-                .map(str -> (RolePermission::valueOf)
+                .map(RolePermission::valueOf)
                 .collect(Collectors.toSet());
         return new RolePermissions(permissions);
     }

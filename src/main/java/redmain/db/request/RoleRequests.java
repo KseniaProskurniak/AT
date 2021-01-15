@@ -14,7 +14,7 @@ public class RoleRequests {
 
     public static List<Role> getAllRoles() {
         String query = "SELECT * FROM roles";
-        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query);
+        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query);
         return result.stream()
                 .map(map -> {
                     Role role = new Role();
@@ -44,7 +44,7 @@ public class RoleRequests {
                     if (objectRole.getId() == null) {
                         return objectRole.getName().equals(role.getName());
                     } else {
-                        return objectRole.getId().equals(role.getId()));
+                        return objectRole.getId().equals(role.getId());
                     }
                 })
                 .findFirst()
@@ -53,9 +53,9 @@ public class RoleRequests {
 
     public static Role addRole(Role role) {
         String query = "INSERT INTO public.roles\n" +
-                "(id, \"name\", \"position\", assignable, builtin, permissions, issue_visibility, user)"
+                "(id, \"name\", \"position\", assignable, builtin, permissions, issue_visibility, user)" +
         "VALUES(DEFAULT, ?, ?,?, ?,?, ?,?, ?,?, ?) RETURNING id;\n";
-        List<Map<String, Object>> result = Manager.getConnection.executePreparedQuety(query,
+        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
                 role.getName(),
                 role.getPosition(),
                 role.getAssignable(),
@@ -64,7 +64,7 @@ public class RoleRequests {
                 role.getIssuesVisibility().toString(),
                 role.getUsersVisibility().toString(),
                 role.getTimeEntriesVisibility().toString(),
-                role.getAllRolesManaged(),
+                role.isAllRolesManaged(),
                 role.getSettings()
         );
         role.setId((Integer) result.get(0).get("id"));
@@ -76,13 +76,13 @@ public class RoleRequests {
                 "SET\"position\"=?, assignable=?; builtin =?, " +
                 "permissions =?, issues_visability =?, users_visibility = ?, time_entries_visibility = ?, all_roles_managed=?, setting =?\n" +
         "WHERE name = ? RETURNING id; \n";
-        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query,
+        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
                 role.getPosition(),
                 role.getAssignable(),
                 role.getPermissions().toString(),
                 role.getIssuesVisibility().toString(),
                 role.getTimeEntriesVisibility().toString(),
-                role.getAllRolesManaged(),
+                role.isAllRolesManaged(),
                 role.getSettings(),
                 role.getName()
         );
