@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import redmain.model.user.enums.Language;
 import redmain.model.user.enums.MailNotification;
 import redmain.model.user.enums.Status;
 
@@ -21,7 +22,7 @@ public class User {
     Boolean admin;
     Status status = Status.NOT_ACTIVE;
     LocalDateTime lastLoginOn;
-    String language;
+    Language language = Language.EN;
     Integer authSourceId;
     LocalDateTime createdOn;
     LocalDateTime updatedOn;

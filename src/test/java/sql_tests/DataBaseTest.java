@@ -1,23 +1,28 @@
 package sql_tests;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import redmain.db.managers.Manager;
-import redmain.db.request.DataBaseConnection;
+import redmain.db.managers.DataBaseConnection;
 import redmain.db.request.RoleRequests;
 import redmain.model.role.Role;
 
-import static redmain.db.managers.Manager.*;
+import java.util.List;
 
+@Slf4j
 public class DataBaseTest {
 
     private DataBaseConnection dbConnection;
 
     @Test
     public void basicSqlTest() {
-        int rolesCountBefore = RoleRequests.getAllRoles().size();
+        List<Role> roles = RoleRequests.getAllRoles();
+//        log.debug("roles: {}", roles);
+        int rolesCountBefore = roles.size();
         Role role = new Role();
-        Assert.assertNotNull(role.getId());
+//        Assert.assertNotNull(role.getId());
         RoleRequests.addRole(role);
         Assert.assertNotNull(role.getId());
         int rolesCountAfter = RoleRequests.getAllRoles().size();

@@ -1,13 +1,13 @@
-package redmain.db.request;
+package redmain.db.managers;
 
 import lombok.SneakyThrows;
-import redmain.Property;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+@Slf4j
 
 public class DataBaseConnection {
     private String dbHost;
@@ -27,11 +27,18 @@ public class DataBaseConnection {
     }
 
     private void initVariables() {
-        dbHost = Property.getStringProperty("dbHost");
-        dbPort = Property.getIntegerProperty("dbPort");
-        dbUser = Property.getStringProperty("dbUser");
-        dbPass = Property.getStringProperty("dbPass");
-        dbName = Property.getStringProperty("dbName");
+        Properties properties = new Properties();
+        try {
+            FileInputStream fileInputStream = new FileInputStream("src/main/resources/dbconfig.propirties");
+            properties.load(fileInputStream);
+            dbHost = properties.getProperty("db.host");
+            dbPort = Integer.parseInt(properties.getProperty("db.port"));
+            dbUser = properties.getProperty("db.user");
+            dbPass = properties.getProperty("db.pass");
+            dbName = properties.getProperty("db.name");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @SneakyThrows
@@ -70,7 +77,8 @@ public class DataBaseConnection {
         for (Object object : parameters) {
             statement.setObject(index++, object);
         }
-        ResultSet resultSet = statement.executeQuery(query);
+        log.debug("statement: {}", statement);
+        ResultSet resultSet = statement.executeQuery();
         int count = resultSet.getMetaData().getColumnCount();
         List<String> columnNames = new ArrayList<>();
         List<Map<String, Object>> result = new ArrayList<>();

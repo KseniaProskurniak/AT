@@ -31,7 +31,6 @@ public enum Language {
     FI("Finnish", "Suomi");
 
 
-
     String internationalName;
     String localizedName;
 }

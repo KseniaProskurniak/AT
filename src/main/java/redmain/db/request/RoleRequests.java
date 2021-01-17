@@ -14,7 +14,7 @@ public class RoleRequests {
 
     public static List<Role> getAllRoles() {
         String query = "SELECT * FROM roles";
-        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query);
+        List<Map<String, Object>> result = Manager.getConnection().executeQuery(query);
         return result.stream()
                 .map(map -> {
                     Role role = new Role();
@@ -52,9 +52,10 @@ public class RoleRequests {
     }
 
     public static Role addRole(Role role) {
-        String query = "INSERT INTO public.roles\n" +
-                "(id, \"name\", \"position\", assignable, builtin, permissions, issue_visibility, user)" +
-        "VALUES(DEFAULT, ?, ?,?, ?,?, ?,?, ?,?, ?) RETURNING id;\n";
+        String query = "INSERT INTO public.roles " +
+                "(id, name, position, assignable, builtin, permissions, issues_visibility, users_visibility, " +
+                "time_entries_visibility, all_roles_managed, settings) " +
+                "VALUES(DEFAULT,?,?,?,?,?,?,?,?,?,?) RETURNING id;";
         List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
                 role.getName(),
                 role.getPosition(),
@@ -72,21 +73,23 @@ public class RoleRequests {
     }
 
     public static Role updateRole(Role role) {
-        String query = "UPDATE public.roles\n" +
-                "SET\"position\"=?, assignable=?; builtin =?, " +
-                "permissions =?, issues_visability =?, users_visibility = ?, time_entries_visibility = ?, all_roles_managed=?, setting =?\n" +
-        "WHERE name = ? RETURNING id; \n";
+        String query = "UPDATE public.roles " +
+                "SET position=?, assignable=?, builtin=?, " +
+                "permissions=?, issues_visibility=?, users_visibility=?, time_entries_visibility=?, all_roles_managed=?, settings=? " +
+                "WHERE name=? RETURNING id;";
         List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
                 role.getPosition(),
                 role.getAssignable(),
+                role.getBuiltin(),
                 role.getPermissions().toString(),
                 role.getIssuesVisibility().toString(),
+                role.getUsersVisibility().toString(),
                 role.getTimeEntriesVisibility().toString(),
                 role.isAllRolesManaged(),
                 role.getSettings(),
                 role.getName()
         );
-      role.setId((Integer) result.get(0).get("id"));
-      return role;
+        role.setId((Integer) result.get(0).get("id"));
+        return role;
     }
 }

@@ -74,7 +74,12 @@ public enum RolePermission {
     DELETE_WIKI_PAGES("Удаление wiki-страниц"),
     DELETE_WIKI_PAGES_ATTACHMENTS("Удаление прикреплённых файлов"),
     PROTECT_WIKI_PAGES("Блокирование wiki-страниц"),
-    MANAGE_WIKI("Управление Wiki");
+    MANAGE_WIKI("Управление Wiki"),
+    EDIT_OWN_ISSUE_NOTES("Редактирование собственных примечаний"),
+    VIEW_CALENDAR("Просмотр календаря"),
+    VIEW_DOCUMENTS("Просмотр документов"),
+    MANAGE_ISSUE_RELATIONS("Управление связыванием задач"),
+    ADD_ISSUE_NOTES("Добавление примечаний");
 
 
     public final String description;
