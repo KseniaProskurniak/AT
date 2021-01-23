@@ -17,8 +17,8 @@ public class User {
     Integer id;
     String login;
     String hashedPassword;
-    String firstName;
-    String lastName;
+    String firstname;
+    String lastname;
     Boolean admin;
     Status status = Status.NOT_ACTIVE;
     LocalDateTime lastLoginOn;
