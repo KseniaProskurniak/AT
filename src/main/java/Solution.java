@@ -6,24 +6,29 @@ import java.util.*;
 
 
     public class Solution {
-        public static void main(String[] args) {
-            Map<String, String> map = new HashMap<>();
-            map.put("Sim", "Sim");
-            map.put("Tom", "Tom");
-            map.put("Arbus", "Arbus");
-            map.put("Baby", "Baby");
-            map.put("Cat", "Cat");
-            map.put("Dog", "Dog");
-            map.put("Eat", "Eat");
-            map.put("Food", "Food");
-            map.put("Gevey", "Gevey");
-            map.put("Hugs", "Hugs");
+        public static void main(String[] args) throws Exception {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            int[] array = new int[20];
+            for (int i = 0; i < 20; i++) {
+                array[i] = Integer.parseInt(reader.readLine());
+            }
 
-            printKeys(map);
+            sort(array);
+
+            for (int x : array) {
+                System.out.println(x);
+            }
         }
 
-        public static void printKeys(Map<String, String> map) {
-            map.forEach((k, v) -> System.out.println(k));
+        public static void sort(int[] array) {
+            for (int i = 0; i < array.length; i++) {
+                for (int j = array.length; j < i; j--) {
+                    if (array[i] < array[j]) {
+                        int temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+                    }
+                }
+            }
         }
-        }
-
+    }

@@ -1,11 +1,8 @@
 package sql_tests;
 
-import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import redmain.db.managers.DataBaseConnection;
 import redmain.db.request.RoleRequests;
 import redmain.model.role.Role;
 
@@ -13,8 +10,6 @@ import java.util.List;
 
 @Slf4j
 public class DataBaseTest {
-
-    private DataBaseConnection dbConnection;
 
     @Test
     public void basicSqlTest() {
