@@ -1,5 +1,6 @@
 package redmine.db.request;
 
+import redmine.managers.Manager;
 import redmine.model.role.IssuesVisibility;
 import redmine.model.role.Role;
 import redmine.model.role.RolePermissions;
@@ -13,7 +14,7 @@ public class RoleRequests {
 
     public static List<Role> getAllRoles() {
         String query = "SELECT * FROM roles";
-        List<Map<String, Object>> result = Manager.getConnection().executeQuery(query);
+        List<Map<String, Object>> result = Manager.dbConnection.executeQuery(query);
         return result.stream()
                 .map(map -> {
                     Role role = new Role();
@@ -55,7 +56,7 @@ public class RoleRequests {
                 "(id, name, position, assignable, builtin, permissions, issues_visibility, users_visibility, " +
                 "time_entries_visibility, all_roles_managed, settings) " +
                 "VALUES(DEFAULT,?,?,?,?,?,?,?,?,?,?) RETURNING id;";
-        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
+        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query,
                 role.getName(),
                 role.getPosition(),
                 role.getAssignable(),
@@ -76,7 +77,7 @@ public class RoleRequests {
                 "SET position=?, assignable=?, builtin=?, " +
                 "permissions=?, issues_visibility=?, users_visibility=?, time_entries_visibility=?, all_roles_managed=?, settings=? " +
                 "WHERE name=? RETURNING id;";
-        List<Map<String, Object>> result = Manager.getConnection().executePreparedQuery(query,
+        List<Map<String, Object>> result = Manager.dbConnection.executePreparedQuery(query,
                 role.getPosition(),
                 role.getAssignable(),
                 role.getBuiltin(),

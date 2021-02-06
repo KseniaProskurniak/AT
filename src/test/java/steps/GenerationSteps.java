@@ -1,21 +1,16 @@
 package test.java.steps;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
 import redmine.cucumber.ParametersValidator;
 import redmine.managers.Context;
-import redmine.model.role.IssuesVisibility;
-import redmine.model.role.Role;
-import redmine.model.role.RolePermission;
-import redmine.model.role.RolePermissions;
-import redmine.model.role.TimeEntriesVisibility;
-import redmine.model.role.UsersVisibility;
+import redmine.model.role.*;
 import redmine.model.user.User;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;

@@ -2,6 +2,7 @@ package redmine.utils;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import redmine.managers.Manager;
 
 import java.util.concurrent.TimeUnit;
 

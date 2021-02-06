@@ -1,22 +1,17 @@
-package test.java.steps;
-
-import java.util.Map;
-
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+package steps;
 
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import redmine.cucumber.ParametersValidator;
 import redmine.managers.Context;
-import redmine.model.role.IssuesVisibility;
-import redmine.model.role.Role;
-import redmine.model.role.RolePermissions;
-import redmine.model.role.TimeEntriesVisibility;
-import redmine.model.role.UsersVisibility;
+import redmine.model.role.*;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
-import redmine.utils.Asserts;
 import redmine.utils.BrowserUtils;
+
+import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
@@ -66,37 +61,37 @@ public class AssertionSteps {
         Role role = Context.get(roleStashId, Role.class);
 
         if (parameters.containsKey("Позиция")) {
-            Asserts.assertEquals(
-                    role.getPosition(),
+            Assert.assertEquals(
+                    Optional.ofNullable(role.getPosition()),
                     parseInt(parameters.get("Позиция"))
             );
         }
         if (parameters.containsKey("Встроенная")) {
-            Asserts.assertEquals(
-                    role.getBuiltin(),
+            Assert.assertEquals(
+                    Optional.ofNullable(role.getBuiltin()),
                     parseInt(parameters.get("Встроенная"))
             );
         }
         if (parameters.containsKey("Задача может быть назначена этой роли")) {
-            Asserts.assertEquals(
-                    role.getAssignable(),
+            Assert.assertEquals(
+                    Optional.ofNullable(role.getAssignable()),
                     parseBoolean(parameters.get("Задача может быть назначена этой роли"))
             );
         }
         if (parameters.containsKey("Видимость задач")) {
-            Asserts.assertEquals(
+            Assert.assertEquals(
                     role.getIssuesVisibility(),
                     IssuesVisibility.of(parameters.get("Видимость задач"))
             );
         }
         if (parameters.containsKey("Видимость пользователей")) {
-            Asserts.assertEquals(
+            Assert.assertEquals(
                     role.getUsersVisibility(),
                     UsersVisibility.of(parameters.get("Видимость пользователей"))
             );
         }
         if (parameters.containsKey("Видимость трудозатрат")) {
-            Asserts.assertEquals(
+            Assert.assertEquals(
                     role.getTimeEntriesVisibility(),
                     TimeEntriesVisibility.of(parameters.get("Видимость трудозатрат"))
             );
@@ -104,7 +99,7 @@ public class AssertionSteps {
         if (parameters.containsKey("Права")) {
             RolePermissions expectedPermissions = Context.get(parameters.get("Права"), RolePermissions.class);
             RolePermissions actualPermissions = role.getPermissions();
-            Asserts.assertEquals(actualPermissions, expectedPermissions);
+            Assert.assertEquals(actualPermissions, expectedPermissions);
         }
 
     }

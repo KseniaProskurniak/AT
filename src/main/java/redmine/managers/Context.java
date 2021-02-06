@@ -35,8 +35,6 @@ public class Context {
 
     @Step("Сущности в контексте автотеста")
     public static void saveStashToAllure() {
-        getStash().getEntities().forEach(
-                (key, value) -> Allure.addAttachment(key, value.toString())
-        );
+        getStash().getEntities().forEach((key, value) -> Allure.addAttachment(key, value.toString()));
     }
 }

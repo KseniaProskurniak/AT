@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
-import redmine.ui.LoginPage;
+import redmine.ui.pages.LoginPage;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
 
