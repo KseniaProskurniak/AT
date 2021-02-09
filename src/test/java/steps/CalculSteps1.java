@@ -7,7 +7,7 @@ import testing_explain.model.testing_explan_model.Calculator;
 
 public class CalculSteps1 {
 
-
+//1
     private int result;
 
     @Если("в калькуляторе сложить числа {int} и {int}")
