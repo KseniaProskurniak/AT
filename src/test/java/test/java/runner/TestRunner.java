@@ -1,22 +1,15 @@
 package test.java.runner;
 
-import java.lang.reflect.Method;
-
-import org.testng.ITest;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Listeners;
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import cucumber.api.testng.CucumberFeatureWrapper;
 import cucumber.api.testng.PickleEventWrapper;
+import org.testng.ITest;
+import org.testng.annotations.*;
 import redmine.managers.Context;
 import redmine.managers.Manager;
-import runner.TestNGListenerImpl;
+
+import java.lang.reflect.Method;
 
 @CucumberOptions (
         plugin = {
@@ -28,7 +21,7 @@ import runner.TestNGListenerImpl;
         features = "src/test/resources",
         tags = {"@generation_sample"}
 )
-@Listeners({TestNGListenerImpl.class})
+@Listeners({test.java.runner.TestNGListenerImpl.class})
 public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
     //TODO изменить на ThreadLocal
