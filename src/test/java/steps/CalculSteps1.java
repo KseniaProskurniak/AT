@@ -11,8 +11,7 @@ public class CalculSteps1 {
 
     @Если("в калькуляторе сложить числа {int} и {int}")
     public int calcul(int a, int b) {
-        result = Calculator.sum(a,b);
-        return result;
+        return result = Calculator.sum(a,b);
     }
 
     @То("cумма будет равна {int}")
