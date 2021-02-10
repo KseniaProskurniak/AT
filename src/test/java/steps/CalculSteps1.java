@@ -7,12 +7,12 @@ import testing_explain.model.testing_explan_model.Calculator;
 
 public class CalculSteps1 {
 
-//1
     private int result;
 
     @Если("в калькуляторе сложить числа {int} и {int}")
     public int calcul(int a, int b) {
-        return Calculator.sum(a,b);
+        result = Calculator.sum(a,b);
+        return result;
     }
 
     @То("cумма будет равна {int}")
