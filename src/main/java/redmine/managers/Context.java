@@ -22,7 +22,7 @@ public class Context {
         return getStash().get(stashId);
     }
 
-    private static Stash getStash() {
+    public static Stash getStash() {
         if (stash.get() == null) {
             stash.set(new Stash());
         }
