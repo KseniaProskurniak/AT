@@ -1,25 +1,43 @@
 package redmine.ui.pages;
 
-import lombok.Data;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import redmine.managers.Manager;
+import redmine.ui.pages.helpers.CucumberName;
 
-@Data
+/**
+ * Страница входа
+ */
+
+@CucumberName("Вход в систему")
 public class LoginPage extends AbstractPage {
-    private WebDriver webDriver;
 
-    public LoginPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-    }
+    @CucumberName("Логин")
+    @FindBy(xpath = "//input[@id='username']")
+    private WebElement loginElement;
 
-    public void login(String username, String password) {
-        webDriver.get("http://edu-at.dfu.i-teco.ru/login");
-        WebElement loginElement = webDriver.findElement(By.xpath("//input[@id='username']"));
-        WebElement passwordElement = webDriver.findElement(By.xpath("//input[@id='password']"));
-        WebElement submitButton = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
-        loginElement.sendKeys(username);
+    @CucumberName("Пароль")
+    @FindBy(xpath = "//input[@id='password']")
+    private WebElement passwordElement;
+
+    @CucumberName("Войти")
+    @FindBy(xpath = "//input[@id='login-submit']")
+    private WebElement submitButton;
+
+    @CucumberName("Ошибка")
+    @FindBy(xpath = "//div[@id = 'flash_error']")
+    private WebElement flashError;
+
+    @Step("Вход в систему Redmine с логином {0} и паролем {1}")
+    public void login(String login, String password) {
+        loginElement.sendKeys(login);
         passwordElement.sendKeys(password);
         submitButton.click();
+        Manager.takeScreenshot();
+    }
+
+    public String errorMessage() {
+        return flashError.getText();
     }
 }

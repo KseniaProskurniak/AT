@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <testng.version>7.1.0</testng.version>
         <lombok.version>1.18.16</lombok.version>
-        <aspectj.version>1.8.10</aspectj.version>
+        <aspectj.version>1.8.13</aspectj.version>
         <cucumber.version>4.2.4</cucumber.version>
         <allure.version>2.13.8</allure.version>
     </properties>
@@ -112,7 +112,7 @@
                 <filtering>true</filtering>
             </testResource>
             <testResource>
-                <directory>src/main/oldNgTests/test/resources</directory>
+                <directory>src/test/resources</directory>
                 <filtering>true</filtering>
             </testResource>
         </testResources>
@@ -128,6 +128,13 @@
                     <target>8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

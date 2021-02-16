@@ -2,5 +2,6 @@
 /shelf/
 /target/
 /.idea/
-/src/main/oldNgTests/test/resources/chromedriver.exe
 
+/src/test/resources/chromedriver.exe
+/src/test/resources/geckodriver.exe
