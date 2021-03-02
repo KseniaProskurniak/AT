@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
+import redmine.model.user.User;
 import redmine.ui.pages.LoginPage;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
@@ -44,6 +45,14 @@ public class LoginByAcceptedUserTest {
     }
 
     @Test
+    void createUserTest(){
+        User user = createAcceptedUser();
+        System.out.printf("login: %s\n", user.getLogin());
+        System.out.printf("password: %s\n", user.getPassword());
+        Assert.assertTrue(true);
+    }
+
+    @Test
     void login() {
         LoginPage loginPage = new LoginPage(webDriver);
         loginPage.login(admin.getLogin(), admin.getPassword());
@@ -65,6 +74,10 @@ public class LoginByAcceptedUserTest {
         Assert.assertFalse(topMenuTexts.contains("Регистрация"));
         WebElement search = webDriver.findElement(By.xpath("//label[@for='q']"));
         Assert.assertEquals(search.getText(), "Поиск:");
+    }
+
+    private static User createAcceptedUser(){
+       return new User().create();
     }
 
     private static UserInfo generateNotAcceptedUser() {
