@@ -131,7 +131,7 @@
                 <filtering>true</filtering>
             </testResource>
             <testResource>
-                <directory>src/main/oldNgTests/test/resources</directory>
+                <directory>src/test/APITests/test/resources</directory>
                 <filtering>true</filtering>
             </testResource>
         </testResources>

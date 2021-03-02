@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class UserCreateByUserRestApiTest {
-    private static final String userApiKey = "b9008355a7ed9c1c35abdb3bbff1e54956c2c2da";
+    private static final String userApiKey = "bcf8ee3b6fe9b886ccf95235fce19187144c125f";
     private static final String login = StringGenerators.randomEnglishLowerString(8);
     private static final String firstName = StringGenerators.randomEnglishLowerString(12);
     private static final String lastName = StringGenerators.randomEnglishLowerString(12);
