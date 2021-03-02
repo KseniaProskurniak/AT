@@ -19,14 +19,13 @@ public class User implements Generatable<User> {
     private Integer status = 1;
     private String firstname = StringGenerators.randomEnglishString(8);
     private String lastname = StringGenerators.randomEnglishString(8);
-    private String salt = StringGenerators.randomString(40, "0123456789abcdef");
+    private String salt = StringGenerators.randomString(32, "0123456789abcdef");
+    private String apiKey = StringGenerators.randomString(40, "0123456789abcdef");
 
-    // generateRandomString(40, "0123456789abcdef");
 
-    public String getApiKey() {
-        //TODO Изменить на генерацию ключа API
-        return "f02b2da01a468c4116be898911481d1b928c15f9";
-    }
+//    public String getApiKey() {
+//        return "f02b2da01a468c4116be898911481d1b928c15f9";
+//    }
 
     @Override
     public User read() {
