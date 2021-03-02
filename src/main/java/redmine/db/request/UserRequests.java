@@ -1,14 +1,16 @@
 package redmine.db.request;
 
+import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.DigestUtils;
 import redmine.managers.Manager;
 import redmine.model.user.User;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 
 public class UserRequests {
-
+    @SneakyThrows
     public static User createUser(User user) {
         String query = "INSERT INTO public.users " +
                 "(id, login, hashed_password, firstname, lastname, admin, status, language, type, " +
@@ -29,13 +31,13 @@ public class UserRequests {
         user.setId((Integer) result.get(0).get("id"));
 
         query = "INSERT INTO public.tokens " +
-                "(id, user_id, action, value) " +
-                "VALUES(DEFAULT,?,?,?) RETURNING id;";
-        Manager.dbConnection.executePreparedQuery(query,
-                user.getId(),
-                "api",
-                user.getApiKey()
-        );
+                "(id, user_id, action, value, created_on) " +
+                "VALUES(DEFAULT,?,'api',?,?) RETURNING id;";
+        PreparedStatement prepared = Manager.dbConnection.getConnection().prepareStatement(query);
+        prepared.setInt(1, user.getId());
+        prepared.setString(2, user.getApiKey());
+        prepared.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+        prepared.executeQuery();
 
         return user;
 
