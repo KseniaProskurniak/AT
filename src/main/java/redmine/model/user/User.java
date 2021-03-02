@@ -29,17 +29,24 @@ public class User implements Generatable<User> {
 
     @Override
     public User read() {
+        //todo реализовать
         return null;
     }
 
     @Override
     public User update() {
+        //todo реализовать
         return null;
     }
 
     @Override
     public User create() {
         return UserRequests.createUser(this);
+    }
+
+    @Override
+    public void delete() {
+        //todo реализовать
     }
 
 }

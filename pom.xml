@@ -16,6 +16,7 @@
         <aspectj.version>1.9.6</aspectj.version>
         <cucumber.version>4.2.4</cucumber.version>
         <allure.version>2.13.8</allure.version>
+        <slf4j.version>1.7.30</slf4j.version>
     </properties>
 
     <dependencies>
@@ -110,6 +111,16 @@
             <version>0.9.12</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
     </dependencies>
 

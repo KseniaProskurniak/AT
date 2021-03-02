@@ -62,5 +62,11 @@ public class Role implements Generatable<Role> {
         //TODO создание в БД
         return RoleRequests.addRole(this);
     }
+
+    @Override
+    public void delete() {
+
+    }
+
 }
 

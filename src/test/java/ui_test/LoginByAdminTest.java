@@ -1,8 +1,5 @@
 package ui_test;
 
-import io.restassured.http.ContentType;
-import io.restassured.http.Method;
-import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,23 +9,18 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import redmine.model.dto.UserDto;
-import redmine.model.dto.UserInfo;
+import redmine.model.user.Admin;
+import redmine.model.user.User;
 import redmine.ui.pages.LoginPage;
-import redmine.utils.StringGenerators;
-import redmine.utils.gson.GsonHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.restassured.RestAssured.given;
-
 @Slf4j
 public class LoginByAdminTest {
-    private static final String adminApiKey = "f02b2da01a468c4116be898911481d1b928c15f9";
 
     private WebDriver webDriver;
-    private UserInfo admin;
+    private User admin;
 
     @BeforeClass
     void init() {
@@ -67,38 +59,11 @@ public class LoginByAdminTest {
         Assert.assertEquals(search.getText(), "Поиск:");
     }
 
-    private static UserInfo generateAdmin() {
-        String login = StringGenerators.randomEnglishLowerString(8);
-        String firstName = StringGenerators.randomEnglishLowerString(8);
-        String lastName = StringGenerators.randomEnglishLowerString(8);
-        String mail = StringGenerators.randomEmail();
-        String password = StringGenerators.randomEnglishLowerString(8);
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"password\": \"%s\",\n" +
-                "        \"admin\": \"%s\"\n" +
-                "    }\n" +
-                "}", login, firstName, lastName, mail, password, true);
-        Response response = given()
-                .baseUri("http://edu-at.dfu.i-teco.ru/")
-                .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .body(body)
-                .request(Method.POST, "users.json");
-        UserInfo userInfo = GsonHelper.getGson().fromJson(response.getBody().asString(), UserDto.class).getUser();
-        log.debug("userInfo: {}", userInfo);
-        return userInfo.setPassword(password);
+    private static User generateAdmin() {
+        return new Admin().create();
     }
 
-    private static void deleteUser(UserInfo user) {
-        given()
-                .baseUri("http://edu-at.dfu.i-teco.ru/")
-                .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .request(Method.DELETE, String.format("users/%d.json", user.getId()));
+    private static void deleteUser(User user) {
+        user.delete();
     }
 }
