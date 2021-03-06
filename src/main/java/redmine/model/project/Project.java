@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import redmine.utils.StringGenerators;
 
 import java.time.Instant;
 
@@ -26,4 +27,14 @@ public class Project {
     Boolean inheritMembers;
     Integer defaultVersionId;
     Integer defaultAssignedToId;
+
+
+    public static Project generate(){
+        return new Project()
+                .setName("Ksyu" + StringGenerators.randomEnglishString(10))
+                .setDescription(StringGenerators.randomEnglishString(20))
+                .setIsPublic(true)
+                .setIdentifier(StringGenerators.randomEnglishLowerString(10))
+                .setStatus(1);
+    }
 }

@@ -19,6 +19,7 @@ public class User implements Generatable<User> {
     private Integer status = 1;
     private String firstname = StringGenerators.randomEnglishString(8);
     private String lastname = StringGenerators.randomEnglishString(8);
+    private String email = StringGenerators.randomEmail();
     private String salt = StringGenerators.randomString(32, "0123456789abcdef");
     private String apiKey = StringGenerators.randomString(40, "0123456789abcdef");
 
@@ -48,5 +49,6 @@ public class User implements Generatable<User> {
     public void delete() {
         //todo реализовать
     }
+
 
 }
