@@ -10,28 +10,27 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.dto.UserDto;
 import redmine.model.dto.UserInfo;
-import redmine.utils.StringGenerators;
+import redmine.model.user.User;
 import redmine.utils.gson.GsonHelper;
 
 import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class UserGetByUserRestApiTest {
-    private static final String adminApiKey = "f02b2da01a468c4116be898911481d1b928c15f9";
-    private static UserInfo user;
-    private static UserInfo otherUser;
+    private User byUser;
+    private User user;
 
 
     @BeforeClass
-    public static void init() {
-        user = generateUser();
-        otherUser = generateUser();
+    void init() {
+        byUser = new User().create();
+        user = new User().create();
     }
 
     @AfterClass
-    public static void clear() {
-        deleteUser(user);
-        deleteUser(otherUser);
+    void drop() {
+        byUser.delete();
+        user.delete();
     }
 
     @Test
@@ -39,10 +38,14 @@ public class UserGetByUserRestApiTest {
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", user.getApiKey())
-                .request(Method.GET, String.format("users/%d.json", user.getId()));
+                .header("X-Redmine-API-Key", byUser.getApiKey())
+                .request(Method.GET, String.format("users/%d.json", byUser.getId()));
         UserInfo responseUser = GsonHelper.getGson().fromJson(response.getBody().asString(), UserDto.class).getUser();
         Assert.assertEquals(response.getStatusCode(), 200);
+        Assert.assertEquals(responseUser.getId(), byUser.getId());
+        Assert.assertEquals(responseUser.getLogin(), byUser.getLogin());
+        Assert.assertEquals(responseUser.getFirstname(), byUser.getFirstname());
+        Assert.assertEquals(responseUser.getLastname(), byUser.getLastname());
         Assert.assertFalse(responseUser.getAdmin());
         Assert.assertNotNull(responseUser.getApiKey());
     }
@@ -53,45 +56,18 @@ public class UserGetByUserRestApiTest {
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", user.getApiKey())
-                .request(Method.GET, String.format("users/%d.json", otherUser.getId()));
+                .header("X-Redmine-API-Key", byUser.getApiKey())
+                .request(Method.GET, String.format("users/%d.json", user.getId()));
         UserInfo responseUser = GsonHelper.getGson().fromJson(response.getBody().asString(), UserDto.class).getUser();
-        log.debug("responseUser: {}" , responseUser);
+        log.debug("responseUser: {}", responseUser);
         Assert.assertEquals(response.getStatusCode(), 200);
+        Assert.assertEquals(responseUser.getId(), user.getId());
+        Assert.assertEquals(responseUser.getLogin(), user.getLogin());
+        Assert.assertEquals(responseUser.getFirstname(), user.getFirstname());
+        Assert.assertEquals(responseUser.getLastname(), user.getLastname());
         Assert.assertNull(responseUser.getAdmin());
         Assert.assertNull(responseUser.getApiKey());
     }
 
-    private static UserInfo generateUser() {
-        String login = StringGenerators.randomEnglishLowerString(8);
-        String firstName = StringGenerators.randomEnglishLowerString(8);
-        String lastName = StringGenerators.randomEnglishLowerString(8);
-        String mail = StringGenerators.randomEmail();
-        String password = StringGenerators.randomEnglishLowerString(8);
-        String body = String.format("{\n" +
-                "    \"user\": {\n" +
-                "        \"login\": \"%s\",\n" +
-                "        \"firstname\": \"%s\",\n" +
-                "        \"lastname\": \"%s\",\n" +
-                "        \"mail\": \"%s\",\n" +
-                "        \"password\": \"%s\"\n" +
-                "    }\n" +
-                "}", login, firstName, lastName, mail, password);
-        Response response = given()
-                .baseUri("http://edu-at.dfu.i-teco.ru/")
-                .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .body(body)
-                .request(Method.POST, "users.json");
-        return GsonHelper.getGson().fromJson(response.getBody().asString(), UserDto.class).getUser();
-    }
-
-    private static void deleteUser(UserInfo user) {
-        given()
-                .baseUri("http://edu-at.dfu.i-teco.ru/")
-                .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .request(Method.DELETE, String.format("users/%d.json", user.getId()));
-    }
 }
 

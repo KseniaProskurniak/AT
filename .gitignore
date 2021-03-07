@@ -5,4 +5,4 @@
 /.allure/
 *.exe
 *.log
-
+*-attachment.txt

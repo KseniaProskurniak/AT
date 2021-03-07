@@ -6,38 +6,34 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.dto.UserDto;
+import redmine.model.user.Admin;
+import redmine.model.user.User;
 import redmine.utils.StringGenerators;
 import redmine.utils.gson.GsonHelper;
-
 
 import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
 
 @Slf4j
 public class UserCrudByAdminRestApiTest {
-    private static final String adminApiKey = "f02b2da01a468c4116be898911481d1b928c15f9";
-    private static final String login = StringGenerators.randomEnglishLowerString(8);
-    private static final String firstName = StringGenerators.randomEnglishLowerString(12);
-    private static final String lastName = StringGenerators.randomEnglishLowerString(12);
-    private static final String mail = StringGenerators.randomEmail();
-    private static final String password = StringGenerators.randomEnglishLowerString(8);
-    private UserDto createdUser;
 
-    @Test
-    public void restRequestTest() {
-        given().baseUri("http://edu-at.dfu.i-teco.ru/")
-                .contentType(ContentType.JSON)
-                .request(Method.GET, "roles.json")
-                .then()
-                .statusCode(200)
-                .and()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(containsString("name"));
+    private User byAdmin;
+    private User user;
+
+    @BeforeClass
+    void init() {
+        byAdmin = new Admin().create();
+        user = new User();
+    }
+
+    @AfterClass
+    void drop() {
+        byAdmin.delete();
     }
 
     @Test
@@ -50,27 +46,28 @@ public class UserCrudByAdminRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", login, firstName, lastName, mail, password);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
         log.debug("body: {}", body);
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
                 .body(body)
                 .request(Method.POST, "users.json");
 
         Assert.assertEquals(response.getStatusCode(), 201);
         String responseBody = response.getBody().asString();
         log.debug("responseBody: {}", responseBody);
-        createdUser = GsonHelper.getGson().fromJson(responseBody, UserDto.class);
+        UserDto createdUser = GsonHelper.getGson().fromJson(responseBody, UserDto.class);
         log.debug("createdUser: {}", createdUser);
-        Assert.assertEquals(createdUser.getUser().getLogin(), login);
-        Assert.assertEquals(createdUser.getUser().getFirstname(), firstName);
-        Assert.assertEquals(createdUser.getUser().getLastname(), lastName);
-        Assert.assertEquals(createdUser.getUser().getMail(), mail);
+        Assert.assertEquals(createdUser.getUser().getLogin(), user.getLogin());
+        Assert.assertEquals(createdUser.getUser().getFirstname(), user.getFirstname());
+        Assert.assertEquals(createdUser.getUser().getLastname(), user.getLastname());
+        Assert.assertEquals(createdUser.getUser().getMail(), user.getMail());
         Assert.assertNull(createdUser.getUser().getLastLoginOn());
         Assert.assertEquals(createdUser.getUser().getStatus().intValue(), 1);
         Assert.assertFalse(createdUser.getUser().getAdmin());
+        user.setId(createdUser.getUser().getId());
     }
 
     @Test(dependsOnMethods = "createUserTest")
@@ -83,13 +80,14 @@ public class UserCrudByAdminRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", login, firstName, lastName, mail, password);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
+
         log.debug("body: {}", body);
 
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
                 .body(body)
                 .request(Method.POST, "users.json");
 
@@ -113,13 +111,13 @@ public class UserCrudByAdminRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", login, firstName, lastName, invalidEmail, invalidPassword);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), invalidEmail, invalidPassword);
         log.debug("body: {}", body);
 
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
                 .body(body)
                 .request(Method.POST, "users.json");
 
@@ -143,15 +141,16 @@ public class UserCrudByAdminRestApiTest {
                 "        \"password\": \"%s\",\n" +
                 "        \"status\": %d\n" +
                 "    }\n" +
-                "}", login, firstName, lastName, mail, password, 2);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword(), 2);
+
         log.debug("body: {}", body);
 
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
                 .body(body)
-                .request(Method.PUT, String.format("users/%d.json", createdUser.getUser().getId()));
+                .request(Method.PUT, String.format("users/%d.json", user.getId()));
         Assert.assertEquals(response.getStatusCode(), 204);
     }
 
@@ -160,8 +159,8 @@ public class UserCrudByAdminRestApiTest {
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .request(Method.GET, String.format("users/%d.json", createdUser.getUser().getId()));
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
+                .request(Method.GET, String.format("users/%d.json", user.getId()));
         UserDto user = GsonHelper.getGson().fromJson(response.getBody().asString(), UserDto.class);
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(Optional.ofNullable(user.getUser().getStatus()), Optional.of(2));
@@ -172,8 +171,8 @@ public class UserCrudByAdminRestApiTest {
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .request(Method.DELETE, String.format("users/%d.json", createdUser.getUser().getId()));
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
+                .request(Method.DELETE, String.format("users/%d.json", user.getId()));
         Assert.assertEquals(response.getStatusCode(), 204);
     }
 
@@ -182,8 +181,8 @@ public class UserCrudByAdminRestApiTest {
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", adminApiKey)
-                .request(Method.DELETE, String.format("users/%d.json", createdUser.getUser().getId()));
+                .header("X-Redmine-API-Key", byAdmin.getApiKey())
+                .request(Method.DELETE, String.format("users/%d.json", user.getId()));
         Assert.assertEquals(response.getStatusCode(), 404);
     }
 }

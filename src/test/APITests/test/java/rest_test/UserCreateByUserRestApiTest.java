@@ -5,23 +5,31 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import redmine.utils.StringGenerators;
+import redmine.model.user.User;
 
 import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class UserCreateByUserRestApiTest {
-    private static final String userApiKey = "bcf8ee3b6fe9b886ccf95235fce19187144c125f";
-    private static final String login = StringGenerators.randomEnglishLowerString(8);
-    private static final String firstName = StringGenerators.randomEnglishLowerString(12);
-    private static final String lastName = StringGenerators.randomEnglishLowerString(12);
-    private static final String mail = StringGenerators.randomEmail();
-    private static final String password = StringGenerators.randomEnglishLowerString(8);
+    private User byUser;
+
+    @BeforeClass
+    void init(){
+        byUser = new User().create();
+    }
+
+    @AfterClass
+    void drop(){
+        byUser.delete();
+    }
 
 
     @Test
     public void createUserTest() {
+        User user = new User();
         String body = String.format("{\n" +
                 "    \"user\": {\n" +
                 "        \"login\": \"%s\",\n" +
@@ -30,12 +38,12 @@ public class UserCreateByUserRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", login, firstName, lastName, mail, password);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
         log.debug("body: {}", body);
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
                 .contentType(ContentType.JSON)
-                .header("X-Redmine-API-Key", userApiKey)
+                .header("X-Redmine-API-Key", byUser.getApiKey())
                 .body(body)
                 .request(Method.POST, "users.json");
 
