@@ -38,4 +38,9 @@ public class User implements Generatable<User> {
         return UserRequests.createUser(this);
     }
 
+    @Override
+    public User delete() {
+        return null;
+    }
+
 }
