@@ -64,8 +64,10 @@ public class Role implements Generatable<Role> {
     }
 
     @Override
-    public Role delete() {
-        return null;
+    public void delete() {
+
     }
+
+
 }
 
