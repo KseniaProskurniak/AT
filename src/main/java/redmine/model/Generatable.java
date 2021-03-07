@@ -10,6 +10,8 @@ public interface Generatable<T> {
 
     T create();
 
+    T delete();
+
     @Step("Сгенерирована сущность")
     default T generate() {
         if (read() != null) {
