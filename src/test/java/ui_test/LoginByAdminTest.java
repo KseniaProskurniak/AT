@@ -59,7 +59,7 @@ public class LoginByAdminTest {
         Assert.assertEquals(search.getText(), "Поиск:");
     }
 
-    private static User generateAdmin() {
+    static User generateAdmin() {
         return new Admin().create();
     }
 
