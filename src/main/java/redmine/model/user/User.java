@@ -1,35 +1,42 @@
 package redmine.model.user;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import lombok.experimental.FieldDefaults;
 import redmine.db.request.UserRequests;
 import redmine.model.Generatable;
+import redmine.utils.StringGenerators;
 
+/**
+ * Класс-модель пользователя в системе.
+ */
 @Data
 @Accessors(chain = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-
 public class User implements Generatable<User> {
-    private String login = "admin";
-    private String password = "admin123";
+    private Integer id;
+    private String login = StringGenerators.randomEnglishLowerString(8);
+    private String password = StringGenerators.randomEnglishString(8);
     private Boolean admin = false;
     private Integer status = 1;
-    // generateRandomString(40, "0123456789abcdef");
+    private String firstname = StringGenerators.randomEnglishString(8);
+    private String lastname = StringGenerators.randomEnglishString(8);
+    private String email = StringGenerators.randomEmail();
+    private String salt = StringGenerators.randomString(32, "0123456789abcdef");
+    private String apiKey = StringGenerators.randomString(40, "0123456789abcdef");
 
-    public String getApiKey() {
-        //TODO Изменить на генерацию ключа API
-        return "f02b2da01a468c4116be898911481d1b928c15f9";
-    }
+
+//    public String getApiKey() {
+//        return "f02b2da01a468c4116be898911481d1b928c15f9";
+//    }
 
     @Override
     public User read() {
+        //todo реализовать
         return null;
     }
 
     @Override
     public User update() {
+        //todo реализовать
         return null;
     }
 
@@ -39,8 +46,7 @@ public class User implements Generatable<User> {
     }
 
     @Override
-    public User delete() {
-        return null;
+    public void delete() {
+    UserRequests.deleteUser(this);
     }
-
 }
