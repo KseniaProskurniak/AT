@@ -38,9 +38,15 @@ public class UserRequests {
         prepared.setString(2, user.getApiKey());
         prepared.setDate(3, new java.sql.Date(System.currentTimeMillis()));
         prepared.executeQuery();
-
         return user;
+    }
 
+    @SneakyThrows
+    public static void deleteUser(User user){
+        String query = "DELETE FROM public.users WHERE id = ?;";
+        PreparedStatement prepared = Manager.dbConnection.getConnection().prepareStatement(query);
+        prepared.setInt(1, user.getId());
+        prepared.executeUpdate();
     }
 
     private static String hashPassword(String salt, String plainPassword) {
