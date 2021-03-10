@@ -59,6 +59,7 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
     public void afterMethod(Method name, Object[] testDate) {
         Context.clearStash();
         Manager.driverQuit();
+
     }
 
     @Override

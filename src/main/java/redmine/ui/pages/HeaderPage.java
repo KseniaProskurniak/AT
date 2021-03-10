@@ -25,6 +25,10 @@ public class HeaderPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='home']")
     private WebElement home;
 
+    @CucumberName("Моя страница")
+    @FindBy(xpath = "//a[@class='my-page']")
+    private WebElement myPage;
+
     @CucumberName("Проекты")
     @FindBy(xpath = "//a[@class='projects']")
     public WebElement projects;
@@ -33,9 +37,21 @@ public class HeaderPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='administration']")
     public WebElement administration;
 
+    @CucumberName("Помощь")
+    @FindBy(xpath = "//a[@class='help']")
+    public WebElement help;
+
     @CucumberName("Вошли как")
     @FindBy(xpath = "//div[@id='loggedas']")
     private WebElement loggedAs;
+
+    @CucumberName("Моя учётная запись")
+    @FindBy(xpath = "//a[@class='my-account']")
+    public WebElement myAccount;
+
+    @CucumberName("Выйти")
+    @FindBy(xpath = "//a[@class='logout']")
+    public WebElement logOut;
 
 
     public String loggedAs() {
