@@ -9,6 +9,7 @@ import redmine.utils.BrowserUtils;
 
 public class AssertionSteps {
 
+
     @И("значение переменной {string} равно {int}")
     public void assertResult(String stashId, Integer expectedResult) {
         Integer result = Context.get(stashId, Integer.class);
@@ -31,4 +32,7 @@ public class AssertionSteps {
                 BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
         );
     }
+
+
+
 }
