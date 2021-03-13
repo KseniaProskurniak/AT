@@ -8,9 +8,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import redmine.db.request.MemberRequests;
 import redmine.db.request.ProjectRequests;
 import redmine.model.project.Project;
 import redmine.model.user.Admin;
+import redmine.model.user.Member;
 import redmine.model.user.User;
 import redmine.ui.pages.LoginPage;
 
@@ -55,7 +57,14 @@ public class PrivateProjectVisibility {
         Assert.assertTrue(projectNames.contains(project.getName()));
     }
 
+    @Test
+    void testMembers(){
+        List<Member> members = MemberRequests.getByProject(2038);
+        System.out.println(members);
+    }
+
     private static void deleteUser(User user) {
         user.delete();
     }
+
 }

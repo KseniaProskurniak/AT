@@ -4,9 +4,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
+import redmine.model.user.Member;
 import redmine.utils.StringGenerators;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -27,6 +29,7 @@ public class Project {
     Boolean inheritMembers;
     Integer defaultVersionId;
     Integer defaultAssignedToId;
+    List<Member> members;
 
 
     public static Project generate(){
