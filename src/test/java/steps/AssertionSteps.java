@@ -19,7 +19,6 @@ public class AssertionSteps {
 
     @То("на главной странице отображается поле {string}")
     public void assertProjectElementIsDisplayed(String fieldName) {
-        System.out.println("fghjkl");
         Assert.assertTrue(
                 BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
         );
@@ -34,5 +33,10 @@ public class AssertionSteps {
     }
 
 
+    @То("нажать кнопку {string}")
+    public void clickButton(String fieldName) {
+        CucumberPageObjectHelper.getElementBy("Заголовок", fieldName).click();
+    }
 
 }
+

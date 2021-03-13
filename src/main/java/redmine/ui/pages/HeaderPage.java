@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import redmine.ui.pages.helpers.CucumberName;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -53,8 +54,14 @@ public class HeaderPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='logout']")
     public WebElement logOut;
 
+    @CucumberName("Найти кнопку")
+    @FindBy(className = "b-form-button__input")
+    private Button searchButton;
+
 
     public String loggedAs() {
         return loggedAs.getText();
     }
+
+
 }
