@@ -8,25 +8,29 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import redmine.db.request.MemberRequests;
-import redmine.db.request.ProjectRequests;
 import redmine.model.project.Project;
-import redmine.model.user.Admin;
-import redmine.model.user.Member;
+import redmine.model.role.Role;
 import redmine.model.user.User;
 import redmine.ui.pages.LoginPage;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PrivateProjectVisibility {
-
+public class ProjectVisibilityByUser {
     private WebDriver webDriver;
-    private User admin;
+    private User user;
+    private Project publicProject;
+    private Project privateProject;
+    private Project privateProjectWithMember;
 
     @BeforeClass
     void init() {
-        admin = new Admin().create();
+        user = new User().create();
+        publicProject = Project.generate().create();
+        privateProject = Project.generate().setIsPublic(false).create();
+        privateProjectWithMember = Project.generate().setIsPublic(false).create()
+                .addMember(user, Collections.singletonList(new Role().setId(3)));
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         webDriver = new ChromeDriver();
     }
@@ -34,17 +38,21 @@ public class PrivateProjectVisibility {
     @AfterClass
     void quite() {
         //webDriver.quit();
-        deleteUser(admin);
+        user.delete();
+        publicProject.delete();
+        privateProject.delete();
+        privateProjectWithMember.delete();
     }
 
+    @Test
+    void test(){
+        System.out.println(privateProjectWithMember);
+    }
 
     @Test
-    void testPrivateProjectByAdmin() {
-        Project project = Project.generate().setIsPublic(false);
-        ProjectRequests.create(project);
-        System.out.println(project);
+    void testPublicProject() {
         LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.login(admin.getLogin(), admin.getPassword());
+        loginPage.login(user.getLogin(), user.getPassword());
         Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
         WebElement projectsMenu = webDriver.findElement(By.xpath("//a[@class='projects']"));
         projectsMenu.click();
@@ -54,17 +62,8 @@ public class PrivateProjectVisibility {
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
         System.out.println(projectNames);
-        Assert.assertTrue(projectNames.contains(project.getName()));
+        Assert.assertTrue(projectNames.contains(publicProject.getName()));
+        Assert.assertFalse(projectNames.contains(privateProject.getName()));
+        Assert.assertTrue(projectNames.contains(privateProjectWithMember.getName()));
     }
-
-    @Test
-    void testMembers(){
-        List<Member> members = MemberRequests.getByProject(2038);
-        System.out.println(members);
-    }
-
-    private static void deleteUser(User user) {
-        user.delete();
-    }
-
 }

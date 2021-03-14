@@ -4,7 +4,10 @@ import lombok.SneakyThrows;
 import redmine.managers.Manager;
 import redmine.model.project.Project;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 public class ProjectRequests {
@@ -33,4 +36,8 @@ public class ProjectRequests {
         }
         return project;
     }
+
+//    public static List<Member> getMembers(){
+//
+//    }
 }
