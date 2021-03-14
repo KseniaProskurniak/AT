@@ -51,6 +51,15 @@ public class RoleRequests {
                 .orElse(null);
     }
 
+    public static List<Role> getRolesByMemberId(Integer id) {
+        String query = "SELECT * FROM roles r INNER JOIN member_roles mr ON r.id = mr.role_id WHERE mr.member_id=?;";
+        List<Map<String, Object>> results = Manager.dbConnection.executePreparedQuery(query, id);
+        return results.stream()
+                .map(r -> new Role()
+                        .setId((Integer) r.get("id")))
+                .collect(Collectors.toList());
+    }
+
     public static Role addRole(Role role) {
         String query = "INSERT INTO public.roles " +
                 "(id, name, position, assignable, builtin, permissions, issues_visibility, users_visibility, " +
@@ -71,6 +80,7 @@ public class RoleRequests {
         role.setId((Integer) result.get(0).get("id"));
         return role;
     }
+
 
     public static Role updateRole(Role role) {
         String query = "UPDATE public.roles " +

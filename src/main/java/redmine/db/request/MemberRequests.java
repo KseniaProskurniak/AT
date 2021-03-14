@@ -12,7 +12,7 @@ public class MemberRequests {
     public static List<Member> getByProject(Integer id) {
 
         String query = "SELECT * FROM members m " +
-                "INNER JOIN users u ON u.id = m.user_id WHERE m.project_id = ?";
+                "INNER JOIN users u ON u.id=m.user_id WHERE m.project_id=?";
 
 
         List<Map<String, Object>> results = Manager.dbConnection.executePreparedQuery(query, id);
