@@ -59,6 +59,7 @@ public class HeaderPage extends AbstractPage {
     private Button searchButton;
 
 
+
     public String loggedAs() {
         return loggedAs.getText();
     }
