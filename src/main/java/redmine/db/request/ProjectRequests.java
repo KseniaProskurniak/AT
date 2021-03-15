@@ -37,7 +37,4 @@ public class ProjectRequests {
         return project;
     }
 
-//    public static List<Member> getMembers(){
-//
-//    }
 }
