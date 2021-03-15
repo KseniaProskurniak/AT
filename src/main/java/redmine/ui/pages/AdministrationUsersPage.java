@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import redmine.ui.pages.helpers.CucumberName;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -21,11 +20,13 @@ public class AdministrationUsersPage extends AbstractPage {
     public List<WebElement> createdOn;
 
     @CucumberName("Пользователи")
-    @FindBy(xpath = "//a[contains(@class, 'users')]")
-    private Button usersButton;
+    @FindBy(xpath = "//*[contains(@class, 'users')]")
+    public WebElement usersButton;
 
     @CucumberName("Новый пользователь")
-    @FindBy(xpath = "//a[contains(@class, 'icon-add)]")
-    private Button userButton;
+    @FindBy(xpath = "//*[contains(@class, 'icon-add')]")
+    public WebElement userButton;
+
+
 
 }
