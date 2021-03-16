@@ -15,9 +15,32 @@ public class NewUserPage extends AbstractPage {
     @FindBy(xpath = "//*[@id = 'user_firstname']")
     public WebElement userFirstname;
 
+    @CucumberName("Фамилия")
+    @FindBy(xpath = "//*[@id = 'user_lastname']")
+    public WebElement userLastname;
+
+    @CucumberName("Email")
+    @FindBy(xpath = "//*[@id = 'user_mail']")
+    public WebElement userMail;
+
+    @CucumberName("Пароль")
+    @FindBy(xpath = "//*[@id = 'user_password']")
+    public WebElement userPassword;
+
+    @CucumberName("Подтверждение")
+    @FindBy(xpath = "//*[@id = 'user_password_confirmation']")
+    public WebElement userPasswordСonfirmation;
+
+    @CucumberName("Создание пароля")
+    @FindBy(xpath = "//*[@id = 'user_generate_password']")
+    public WebElement userGeneratePassword;
+
     @CucumberName("Создать")
     @FindBy(xpath = "//*[@name='commit']")
     public WebElement commit;
 
+    @CucumberName("Сообщение")
+    @FindBy(xpath = "//*[@id='flash_notice']")
+    public WebElement message;
 
 }

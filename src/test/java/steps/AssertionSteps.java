@@ -2,13 +2,17 @@ package steps;
 
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import redmine.managers.Context;
+import redmine.ui.pages.NewUserPage;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
+import redmine.ui.pages.helpers.Pages;
 import redmine.utils.BrowserUtils;
 import redmine.utils.StringGenerators;
 
 public class AssertionSteps {
+
 
     @И("значение переменной {string} равно {int}")
     public void assertResult(String stashId, Integer expectedResult) {
@@ -21,6 +25,13 @@ public class AssertionSteps {
     public void assertProjectElementIsDisplayed(String fieldName) {
         Assert.assertTrue(
                 BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
+        );
+    }
+
+    @То("на странице {string} отображается поле {string}")
+    public void assertProjectElementIsDisplayed(String pageName, String fieldName) {
+        Assert.assertTrue(
+                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy(pageName, fieldName))
         );
     }
 
@@ -50,23 +61,40 @@ public class AssertionSteps {
 
     @То("ввести в поле {string} случайное значение")
     public void fullField(String fieldName) {
-        if(fieldName.equals("Email")){
+        if (fieldName.equals("Email")) {
             CucumberPageObjectHelper.getElementBy("Новый пользователь", fieldName).sendKeys(StringGenerators.randomEmail());
         } else {
             CucumberPageObjectHelper.getElementBy("Новый пользователь", fieldName).sendKeys(StringGenerators.randomEnglishLowerString(8));
         }
-
-//        switch (fieldName){
-//            case "Пользователь":{
-//                CucumberPageObjectHelper.getElementBy("Новый пользователь", fieldName).sendKeys(user.getLogin());
-//            }
-//            case "Имя": {
-//                CucumberPageObjectHelper.getElementBy("Новый пользователь", fieldName).sendKeys(user.getFirstname());
-//            }
-//            case "Фамилия": {
-//                CucumberPageObjectHelper.getElementBy("Новый пользователь", fieldName).sendKeys(user.getLastname());
-//            }
-        }
     }
+
+    @То("заполнить и подтвердить пароль")
+    public void confirmationPassword() {
+        String pass = StringGenerators.randomString(8, StringGenerators.ENGLISH_LOWER);
+        CucumberPageObjectHelper.getElementBy("Новый пользователь", "Пароль").sendKeys(pass);
+        CucumberPageObjectHelper.getElementBy("Новый пользователь", "Подтверждение").sendKeys(pass);
+    }
+
+
+    @То("нажать чекбокс {string}")
+    public void clickСheckBox(String checkBoxName) {
+        CucumberPageObjectHelper.getElementBy("Новый пользователь", checkBoxName).click();
+    }
+
+
+    @И("проверяет корректность создания")
+    public void checkResult() {
+        String message = Pages.getPage(NewUserPage.class).message.getText();
+        String login = Pages.getPage(NewUserPage.class).userLogin.getAttribute("value");
+        message.contains(login);
+    }
+
+
+    @И("на странице {string} нажать на элемент {string}")
+    public void assertFieldIsNotDisplayed(String pageName, String fieldName) {
+        WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
+        element.click();
+    }
+}
 
 
