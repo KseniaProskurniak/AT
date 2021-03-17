@@ -5,6 +5,7 @@ import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import redmine.managers.Context;
+import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.NewUserPage;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
 import redmine.ui.pages.helpers.Pages;
@@ -22,14 +23,28 @@ public class AssertionSteps {
 
 
     @То("на главной странице отображается поле {string}")
-    public void assertProjectElementIsDisplayed(String fieldName) {
+    public void fieldIsDisplayed(String fieldName) {
         Assert.assertTrue(
                 BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
         );
     }
 
+    @То("на странице {string} отображается элемент {string}")
+    public void assertProjectElementIsDisplayed(String pageName,String elementName) {
+        Assert.assertTrue(
+                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy(pageName, elementName))
+        );
+    }
+
+    @То("на странице {string} не отображается элемент {string}")
+    public void assertProjectElementNotDisplayed(String pageName,String elementName) {
+        Assert.assertFalse(
+                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy(pageName, elementName))
+        );
+    }
+
     @То("на странице {string} отображается поле {string}")
-    public void assertProjectElementIsDisplayed(String pageName, String fieldName) {
+    public void assertProjectFieldIsDisplayed(String pageName, String fieldName) {
         Assert.assertTrue(
                 BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy(pageName, fieldName))
         );
@@ -54,8 +69,9 @@ public class AssertionSteps {
         CucumberPageObjectHelper.getElementBy("Администрирование пользователей", fieldName).click();
     }
 
-    @То("нажать кнопку {string} в меню {string}")
-    public void clickButton(String fieldName, String pageName) {
+
+    @То("на странице {string} нажать кнопку {string}")
+    public void clickButton(String pageName, String fieldName) {
         CucumberPageObjectHelper.getElementBy(pageName, fieldName).click();
     }
 
@@ -94,6 +110,13 @@ public class AssertionSteps {
     public void assertFieldIsNotDisplayed(String pageName, String fieldName) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         element.click();
+    }
+
+    @И("вошли как пользователь из предыстории")
+    public void loggedInAs() {
+        String loggedAs = Pages.getPage(HeaderPage.class).loggedAs.getText();
+        String login = Pages.getPage(HeaderPage.class).loggedAs.getText();
+        loggedAs.contains(login);
     }
 }
 

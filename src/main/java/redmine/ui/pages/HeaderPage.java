@@ -44,7 +44,7 @@ public class HeaderPage extends AbstractPage {
 
     @CucumberName("Вошли как")
     @FindBy(xpath = "//div[@id='loggedas']")
-    private WebElement loggedAs;
+    public WebElement loggedAs;
 
     @CucumberName("Моя учётная запись")
     @FindBy(xpath = "//a[@class='my-account']")
