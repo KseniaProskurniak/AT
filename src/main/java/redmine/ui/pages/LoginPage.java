@@ -22,18 +22,26 @@ public class LoginPage extends AbstractPage {
     private WebElement passwordElement;
 
     @CucumberName("Войти")
+    @FindBy(xpath = "//a[@class='login']")
+    public WebElement submitButton;
+
+    @CucumberName("Вход")
     @FindBy(xpath = "//input[@id='login-submit']")
-    private WebElement submitButton;
+    public WebElement loginSubmit;
+
+    @CucumberName("Регистрация")
+    @FindBy(xpath = "//a[@class='register']")
+    public WebElement registration;
 
     @CucumberName("Ошибка")
     @FindBy(xpath = "//div[@id = 'flash_error']")
-    private WebElement flashError;
+    public WebElement flashError;
 
     @Step("Вход в систему Redmine с логином {0} и паролем {1}")
     public void login(String login, String password) {
         loginElement.sendKeys(login);
         passwordElement.sendKeys(password);
-        submitButton.click();
+        loginSubmit.click();
         Manager.takeScreenshot();
     }
 
