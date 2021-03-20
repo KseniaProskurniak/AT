@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.user.Admin;
 import redmine.model.user.User;
+import redmine.ui.pages.LoginPage2;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,18 +33,18 @@ public class SortByNameAndFamilyByAdminTest {
         admin.delete();
     }
 
-//    @Test
-//    void testUsersCategory(){
-//        LoginPage loginPage = new LoginPage(webDriver);
-//        loginPage.login(admin.getLogin(), admin.getPassword());
-//        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
-//        WebElement administrationMenu = webDriver.findElement(By.xpath("//a[@class='administration']"));
-//        administrationMenu.click();
-//        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/admin");
-//        WebElement usersMenu = webDriver.findElement(By.xpath("//a[contains(@class, 'users')]"));
-//        usersMenu.click();
-//        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/users");
-//    }
+    @Test
+    void testUsersCategory(){
+        LoginPage2 loginPage = new LoginPage2(webDriver);
+        loginPage.login(admin.getLogin(), admin.getPassword());
+        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
+        WebElement administrationMenu = webDriver.findElement(By.xpath("//a[@class='administration']"));
+        administrationMenu.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/admin");
+        WebElement usersMenu = webDriver.findElement(By.xpath("//a[contains(@class, 'users')]"));
+        usersMenu.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/users");
+    }
 
     @Test(dependsOnMethods = "testUsersCategory")
     void testUnsortedByFirstName(){

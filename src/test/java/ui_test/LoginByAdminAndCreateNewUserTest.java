@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import redmine.db.request.UserRequests;
 import redmine.model.user.Admin;
 import redmine.model.user.User;
-import redmine.ui.pages.LoginPage;
+import redmine.ui.pages.LoginPage2;
 
 @Slf4j
 public class LoginByAdminAndCreateNewUserTest {
@@ -39,7 +39,7 @@ public class LoginByAdminAndCreateNewUserTest {
     @Test
     void createNewUser() {
         User user = new User();
-        LoginPage loginPage = new LoginPage(webDriver);
+        LoginPage2 loginPage = new LoginPage2(webDriver);
         loginPage.login(admin.getLogin(), admin.getPassword());
         Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
         WebElement loginAs = webDriver.findElement(By.xpath("//div[@id='loggedas']"));
