@@ -1,6 +1,7 @@
 package redmine.ui.pages;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import redmine.managers.Manager;
@@ -12,6 +13,13 @@ import redmine.ui.pages.helpers.CucumberName;
 
 @CucumberName("Вход в систему")
 public class LoginPage extends AbstractPage {
+
+    private final WebDriver webDriver;
+
+    public LoginPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
+    }
+
 
     @CucumberName("Логин")
     @FindBy(xpath = "//input[@id='username']")
