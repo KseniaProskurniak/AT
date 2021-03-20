@@ -96,7 +96,8 @@ public class SortByNameAndFamilyByAdminTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
         List<String> sortedUserFirstNames = userFirstNames.stream()
-                .sorted((n1,n2) -> n2.compareToIgnoreCase(n1))
+                .sorted((n1,n2) -> n1.compareToIgnoreCase(n2)*(-1))
+                //.sorted((n1,n2) -> n2.compareToIgnoreCase(n1))
                 .collect(Collectors.toList());
         System.out.println(userFirstNames);
         System.out.println(sortedUserFirstNames);
