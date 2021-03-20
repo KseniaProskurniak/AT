@@ -47,6 +47,6 @@ public class User implements Generatable<User> {
 
     @Override
     public void delete() {
-    UserRequests.deleteUser(this);
+        UserRequests.deleteUser(this);
     }
 }

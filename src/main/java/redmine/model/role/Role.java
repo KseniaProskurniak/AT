@@ -68,6 +68,5 @@ public class Role implements Generatable<Role> {
 
     }
 
-
 }
 

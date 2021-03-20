@@ -2,6 +2,10 @@
 /shelf/
 /target/
 /.idea/
+/.allure/
+*.exe
+*.log
+*-attachment.txt
 
 /src/test/resources/chromedriver.exe
 /src/test/resources/geckodriver.exe
