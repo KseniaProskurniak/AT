@@ -1,7 +1,10 @@
 package steps;
 
+import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
+import redmine.db.request.ProjectRequests;
 import redmine.managers.Context;
+import redmine.model.project.Project;
 import redmine.model.user.User;
 
 import java.util.Map;
@@ -28,5 +31,12 @@ public class GenerationSteps {
                 user.generate();
         Context.put(stashId, user);
 
+    }
+
+    @И("существует проект со статусом публичности {string} c сохраненным по ключу {string} именем")
+    public void generateAndSaveProject(String status, String key) {
+        Project project = Project.generate().setIsPublic(Boolean.valueOf(status));
+        ProjectRequests.create(project);
+        Context.put(key, project.getName());
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * Заголовок страницы
  */
 
-@CucumberName("Заголовок")
+@CucumberName("Домашняя страница")
 public class HeaderPage extends AbstractPage {
 
     @CucumberName("Элементы заголовка")

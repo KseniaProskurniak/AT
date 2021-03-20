@@ -2,9 +2,11 @@ package steps;
 
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import redmine.managers.Context;
+import redmine.managers.Manager;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.NewUserPage;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
@@ -14,6 +16,7 @@ import redmine.utils.StringGenerators;
 
 public class AssertionSteps {
 
+    WebDriver webDriver = Manager.driver();
 
     @И("значение переменной {string} равно {int}")
     public void assertResult(String stashId, Integer expectedResult) {
@@ -25,7 +28,7 @@ public class AssertionSteps {
     @То("на главной странице отображается поле {string}")
     public void fieldIsDisplayed(String fieldName) {
         Assert.assertTrue(
-                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
+                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Домашняя страница", fieldName))
         );
     }
 
@@ -54,14 +57,14 @@ public class AssertionSteps {
     @То("на главной странице не отображается поле {string}")
     public void assertProjectElementIsNotDisplayed(String fieldName) {
         Assert.assertFalse(
-                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Заголовок", fieldName))
+                BrowserUtils.isElementCurrentlyPresent(CucumberPageObjectHelper.getElementBy("Домашняя страница", fieldName))
         );
     }
 
 
     @То("нажать кнопку в верхнем меню {string}")
     public void clickButtonInUpper(String fieldName) {
-        CucumberPageObjectHelper.getElementBy("Заголовок", fieldName).click();
+        CucumberPageObjectHelper.getElementBy("Домашняя страница", fieldName).click();
     }
 
     @То("нажать кнопку {string}")
@@ -117,6 +120,18 @@ public class AssertionSteps {
         String loggedAs = Pages.getPage(HeaderPage.class).loggedAs.getText();
         String login = Pages.getPage(HeaderPage.class).loggedAs.getText();
         loggedAs.contains(login);
+    }
+
+
+    @И("открыта страница по пути {string}")
+    public void checkPage(String path) {
+        Assert.assertTrue(webDriver.getCurrentUrl().equals(path), "Отображена неверная страница");
+    }
+
+    @И("на странице {string} отображается {string} с ранее сохраненным именем по ключу {string}")
+    public void checkNameProject(String pageName, String fieldName, String keyName) {
+        WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
+        //Assert.assertTrue();
     }
 }
 
