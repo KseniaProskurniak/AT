@@ -1,21 +1,15 @@
 package ui_test;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import redmine.model.project.Project;
 import redmine.model.role.Role;
 import redmine.model.user.User;
-import redmine.ui.pages.LoginPage;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProjectVisibilityByUserTest {
     private WebDriver webDriver;
@@ -49,21 +43,21 @@ public class ProjectVisibilityByUserTest {
         System.out.println(privateProjectWithMember);
     }
 
-    @Test
-    void testPublicProject() {
-        LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.login(user.getLogin(), user.getPassword());
-        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
-        WebElement projectsMenu = webDriver.findElement(By.xpath("//a[@class='projects']"));
-        projectsMenu.click();
-        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/projects");
-        List<WebElement> projects = webDriver.findElements(By.xpath("//div[@id='projects-index']//a"));
-        List<String> projectNames = projects.stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        System.out.println(projectNames);
-        Assert.assertTrue(projectNames.contains(publicProject.getName()));
-        Assert.assertFalse(projectNames.contains(privateProject.getName()));
-        Assert.assertTrue(projectNames.contains(privateProjectWithMember.getName()));
-    }
+//    @Test
+//    void testPublicProject() {
+//        LoginPage loginPage = new LoginPage(webDriver);
+//        loginPage.login(user.getLogin(), user.getPassword());
+//        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/my/page");
+//        WebElement projectsMenu = webDriver.findElement(By.xpath("//a[@class='projects']"));
+//        projectsMenu.click();
+//        Assert.assertEquals(webDriver.getCurrentUrl(), "http://edu-at.dfu.i-teco.ru/projects");
+//        List<WebElement> projects = webDriver.findElements(By.xpath("//div[@id='projects-index']//a"));
+//        List<String> projectNames = projects.stream()
+//                .map(WebElement::getText)
+//                .collect(Collectors.toList());
+//        System.out.println(projectNames);
+//        Assert.assertTrue(projectNames.contains(publicProject.getName()));
+//        Assert.assertFalse(projectNames.contains(privateProject.getName()));
+//        Assert.assertTrue(projectNames.contains(privateProjectWithMember.getName()));
+//    }
 }

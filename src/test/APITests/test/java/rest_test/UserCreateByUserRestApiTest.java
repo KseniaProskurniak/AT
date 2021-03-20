@@ -38,7 +38,7 @@ public class UserCreateByUserRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
         log.debug("body: {}", body);
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")

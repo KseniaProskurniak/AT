@@ -46,7 +46,7 @@ public class UserCrudByAdminRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
         log.debug("body: {}", body);
         Response response = given()
                 .baseUri("http://edu-at.dfu.i-teco.ru/")
@@ -63,7 +63,7 @@ public class UserCrudByAdminRestApiTest {
         Assert.assertEquals(createdUser.getUser().getLogin(), user.getLogin());
         Assert.assertEquals(createdUser.getUser().getFirstname(), user.getFirstname());
         Assert.assertEquals(createdUser.getUser().getLastname(), user.getLastname());
-        Assert.assertEquals(createdUser.getUser().getMail(), user.getMail());
+        Assert.assertEquals(createdUser.getUser().getMail(), user.getEmail());
         Assert.assertNull(createdUser.getUser().getLastLoginOn());
         Assert.assertEquals(createdUser.getUser().getStatus().intValue(), 1);
         Assert.assertFalse(createdUser.getUser().getAdmin());
@@ -80,7 +80,7 @@ public class UserCrudByAdminRestApiTest {
                 "        \"mail\": \"%s\",\n" +
                 "        \"password\": \"%s\"\n" +
                 "    }\n" +
-                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword());
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
 
         log.debug("body: {}", body);
 
@@ -141,7 +141,7 @@ public class UserCrudByAdminRestApiTest {
                 "        \"password\": \"%s\",\n" +
                 "        \"status\": %d\n" +
                 "    }\n" +
-                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getMail(), user.getPassword(), 2);
+                "}", user.getLogin(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword(), 2);
 
         log.debug("body: {}", body);
 
