@@ -3,6 +3,7 @@ package redmine.model.role;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import redmine.db.request.RoleRequests;
 import redmine.model.Generatable;
 import redmine.utils.StringGenerators;
@@ -10,6 +11,7 @@ import redmine.utils.StringGenerators;
 import java.util.HashSet;
 
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 public class Role implements Generatable<Role> {
     private Integer id;

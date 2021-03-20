@@ -5,6 +5,7 @@ import redmine.model.role.IssuesVisibility;
 import redmine.model.role.Role;
 import redmine.model.role.RolePermissions;
 import redmine.model.role.TimeEntriesVisibility;
+import redmine.model.user.Member;
 
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,16 @@ public class RoleRequests {
                 .orElse(null);
     }
 
+    public static List<Role> getRolesByMember(Member member) {
+        String query = "SELECT * FROM roles r INNER JOIN member_roles mr ON r.id = mr.role_id WHERE mr.member_id=?;";
+        List<Map<String, Object>> results = Manager.dbConnection.executePreparedQuery(query, member.getId());
+        return results.stream()
+                .map(r -> new Role()
+                        .setId((Integer) r.get("id"))
+                        .setName((String) r.get("name")))
+                .collect(Collectors.toList());
+    }
+
     public static Role addRole(Role role) {
         String query = "INSERT INTO public.roles " +
                 "(id, name, position, assignable, builtin, permissions, issues_visibility, users_visibility, " +
@@ -71,6 +82,7 @@ public class RoleRequests {
         role.setId((Integer) result.get(0).get("id"));
         return role;
     }
+
 
     public static Role updateRole(Role role) {
         String query = "UPDATE public.roles " +
