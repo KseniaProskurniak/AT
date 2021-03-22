@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import redmine.ui.pages.helpers.CucumberName;
 
 @CucumberName("Проекты")
-public class ProjectPage {
+public class ProjectPage extends AbstractPage {
 
     @CucumberName("Проекты")
     @FindBy(xpath = "//div[@id='content']//*[text() = 'Проекты']")

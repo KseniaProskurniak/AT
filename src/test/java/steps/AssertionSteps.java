@@ -131,7 +131,7 @@ public class AssertionSteps {
     @И("на странице {string} отображается {string} с ранее сохраненным именем по ключу {string}")
     public void checkNameProject(String pageName, String fieldName, String keyName) {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
-        //Assert.assertTrue();
+        Assert.assertTrue(element.getText().contains(String.valueOf(Context.get(keyName))));
     }
 }
 
