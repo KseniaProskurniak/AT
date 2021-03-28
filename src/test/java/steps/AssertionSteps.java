@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import redmine.managers.Context;
 import redmine.managers.Manager;
+import redmine.model.project.Project;
 import redmine.ui.pages.HeaderPage;
 import redmine.ui.pages.NewUserPage;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
@@ -133,6 +134,17 @@ public class AssertionSteps {
         WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
         Assert.assertTrue(element.getText().contains(String.valueOf(Context.get(keyName))));
     }
+
+    @И("в системе заведен публичный проект {string}")
+    public void publicProject(String projectName) {
+        Project project = Project.generate().setIsPublic(true);
+    }
+
+    @И("в системе заведен приватный проект {string}")
+    public void privateProject(String projectName) {
+        Project project = Project.generate().setIsPublic(false);
+    }
+
 }
 
 
