@@ -5,8 +5,10 @@ import cucumber.api.java.ru.Пусть;
 import redmine.db.request.ProjectRequests;
 import redmine.managers.Context;
 import redmine.model.project.Project;
+import redmine.model.role.Role;
 import redmine.model.user.User;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class GenerationSteps {
@@ -38,5 +40,11 @@ public class GenerationSteps {
         Project project = Project.generate().setIsPublic(Boolean.valueOf(status));
         ProjectRequests.create(project);
         Context.put(key, project.getName());
+    }
+
+    @И("у пользователя {string} есть доступ к проекту с сохраненным по ключу {string} именем")
+    public void userAccessToTheProject(String userName, String projectName) {
+        projectName = Project.generate().setIsPublic(false).create()
+                .addMember((User) userName, Collections.singletonList(new Role().setId(3)));
     }
 }
