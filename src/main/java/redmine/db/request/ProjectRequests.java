@@ -37,4 +37,31 @@ public class ProjectRequests {
         return project;
     }
 
+    @SneakyThrows
+    public static Project getByName(String projectName) {
+        String query = "SELECT * FROM projects WHERE name=? LIMIT 1;";
+        PreparedStatement preparedStatement = Manager.dbConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, projectName);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Project project = new Project();
+        if (resultSet.next()) {
+            project.setId(resultSet.getInt("id"))
+                    .setName(resultSet.getString("name"))
+                    .setDescription(resultSet.getString("description"))
+                    .setHomepage(resultSet.getString("homepage"))
+                    .setIsPublic(resultSet.getBoolean("is_public"))
+                  //  .setCreatedOn(resultSet.getDate("created_on").toInstant())
+                    .setCreatedOn(resultSet.getDate("created_on").toInstant())
+                    .setUpdatedOn(resultSet.getDate("updated_on").toInstant())
+                    .setIdentifier(resultSet.getString("identifier"))
+                    .setStatus(resultSet.getInt("status"))
+                    .setLft(resultSet.getInt("lft"))
+                    .setRgt(resultSet.getInt("rgt"))
+                    .setInheritMembers(resultSet.getBoolean("inherit_members"))
+                    .setDefaultVersionId(resultSet.getInt("default_version_id"))
+                    .setDefaultAssignedToId(resultSet.getInt("default_assigned_to_id"));
+            project.setMembers(MemberRequests.getByProject(project));
+        }
+        return project;
+    }
 }

@@ -54,10 +54,17 @@ public class HeaderPage extends AbstractPage {
     @FindBy(xpath = "//a[@class='logout']")
     public WebElement logOut;
 
+    @CucumberName("Войти")
+    @FindBy(xpath = "//a[@class='login']")
+    public WebElement submitButton;
+
+    @CucumberName("Регистрация")
+    @FindBy(xpath = "//a[@class='register']")
+    public WebElement registration;
+
     @CucumberName("Найти кнопку")
     @FindBy(className = "b-form-button__input")
     private Button searchButton;
-
 
 
     public String loggedAs() {
