@@ -13,7 +13,6 @@ import redmine.ui.pages.helpers.CucumberName;
 @CucumberName("Вход в систему")
 public class LoginPage extends AbstractPage {
 
-
     @CucumberName("Логин")
     @FindBy(xpath = "//input[@id='username']")
     private WebElement loginElement;
@@ -22,17 +21,10 @@ public class LoginPage extends AbstractPage {
     @FindBy(xpath = "//input[@id='password']")
     private WebElement passwordElement;
 
-    @CucumberName("Войти")
-    @FindBy(xpath = "//a[@class='login']")
-    public WebElement submitButton;
-
     @CucumberName("Вход")
     @FindBy(xpath = "//input[@id='login-submit']")
     public WebElement loginSubmit;
 
-    @CucumberName("Регистрация")
-    @FindBy(xpath = "//a[@class='register']")
-    public WebElement registration;
 
     @CucumberName("Ошибка")
     @FindBy(xpath = "//div[@id = 'flash_error']")

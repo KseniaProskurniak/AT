@@ -29,7 +29,7 @@ public class NewUserPage extends AbstractPage {
 
     @CucumberName("Подтверждение")
     @FindBy(xpath = "//*[@id = 'user_password_confirmation']")
-    public WebElement userPasswordСonfirmation;
+    public WebElement userPasswordConfirmation;
 
     @CucumberName("Создание пароля")
     @FindBy(xpath = "//*[@id = 'user_generate_password']")

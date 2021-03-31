@@ -3,7 +3,6 @@ package steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Пусть;
 import redmine.db.request.ProjectRequests;
-import redmine.db.request.UserRequests;
 import redmine.managers.Context;
 import redmine.model.project.Project;
 import redmine.model.role.Role;
@@ -14,7 +13,7 @@ import java.util.Map;
 
 public class GenerationSteps {
     @Пусть("существует пользователь {string} с параметрами:")
-    public void generateAndSaveUse(String stashId, Map<String, String> params) {
+    public void generateAndSaveUse(String userStashId, Map<String, String> params) {
         User user = new User();
 
         if (params.containsKey("login")) {
@@ -32,21 +31,21 @@ public class GenerationSteps {
             user.setStatus(Integer.parseInt(params.get("status")));
         }
         user.generate();
-        Context.put(stashId, user);
+        Context.put(userStashId, user);
 
     }
 
-    @И("существует проект со статусом публичности {string} c сохраненным по ключу {string} именем")
-    public void generateAndSaveProject(String status, String key) {
+    @И("существует проект со статусом публичности {string} с именем сохраненным по ключу {string}")
+    public void generateAndSaveProject(String status, String projectStashId) {
         Project project = Project.generate().setIsPublic(Boolean.valueOf(status));
         ProjectRequests.create(project);
-        Context.put(key, project.getName());
+        Context.put(projectStashId, project);
     }
 
     @И("у пользователя {string} есть доступ к проекту с именем сохраненным по ключу {string}")
-    public void userAccessToTheProject(String userName, String projectKey) {
-        Project project = ProjectRequests.getByName((String) Context.get(projectKey));
-        User user = UserRequests.findByLogin(userName);
+    public void userAccessToTheProject(String userStashId, String projectStashId) {
+        Project project = (Project) Context.get(projectStashId);
+        User user = (User) Context.get(userStashId);
         project.addMember(user, Collections.singletonList(new Role().setId(3)));
     }
 }

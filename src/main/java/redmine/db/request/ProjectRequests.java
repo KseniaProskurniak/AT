@@ -4,10 +4,7 @@ import lombok.SneakyThrows;
 import redmine.managers.Manager;
 import redmine.model.project.Project;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.Instant;
 
 public class ProjectRequests {
@@ -50,9 +47,8 @@ public class ProjectRequests {
                     .setDescription(resultSet.getString("description"))
                     .setHomepage(resultSet.getString("homepage"))
                     .setIsPublic(resultSet.getBoolean("is_public"))
-                  //  .setCreatedOn(resultSet.getDate("created_on").toInstant())
-                    .setCreatedOn(resultSet.getDate("created_on").toInstant())
-                    .setUpdatedOn(resultSet.getDate("updated_on").toInstant())
+                    .setCreatedOn(resultSet.getTimestamp("created_on").toInstant())
+                    .setUpdatedOn(resultSet.getTimestamp("updated_on").toInstant())
                     .setIdentifier(resultSet.getString("identifier"))
                     .setStatus(resultSet.getInt("status"))
                     .setLft(resultSet.getInt("lft"))
@@ -60,8 +56,12 @@ public class ProjectRequests {
                     .setInheritMembers(resultSet.getBoolean("inherit_members"))
                     .setDefaultVersionId(resultSet.getInt("default_version_id"))
                     .setDefaultAssignedToId(resultSet.getInt("default_assigned_to_id"));
-            project.setMembers(MemberRequests.getByProject(project));
+          //  project.setMembers(MemberRequests.getByProject(project));
         }
         return project;
     }
+
+//    private static Instant toInstant(Date date){
+//        return Instant.ofEpochMilli(date.getTime());
+//    }
 }

@@ -7,13 +7,16 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import redmine.managers.Context;
 import redmine.managers.Manager;
+import redmine.model.project.Project;
 import redmine.model.user.User;
-import redmine.ui.pages.HeaderPage;
+import redmine.ui.pages.HomePage;
 import redmine.ui.pages.NewUserPage;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
 import redmine.ui.pages.helpers.Pages;
 import redmine.utils.BrowserUtils;
 import redmine.utils.StringGenerators;
+
+import java.util.List;
 
 public class AssertionSteps {
 
@@ -118,8 +121,8 @@ public class AssertionSteps {
 
     @И("вошли как пользователь {string}")
     public void loggedInAs(String stashId) {
-        String loggedAs = Pages.getPage(HeaderPage.class).loggedAs.getText();
-        User user = (User) Context.get(stashId);
+        String loggedAs = Pages.getPage(HomePage.class).loggedAs.getText();
+        User user = Context.get(stashId, User.class);
         Assert.assertTrue(loggedAs.contains(user.getLogin()));
     }
 
@@ -128,16 +131,22 @@ public class AssertionSteps {
         Assert.assertEquals(path, webDriver.getCurrentUrl(), "Отображена неверная страница");
     }
 
-    @И("на странице {string} отображается {string} с ранее сохраненным именем по ключу {string}")
-    public void checkNameProject(String pageName, String fieldName, String keyName) {
-        WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
-        Assert.assertTrue(element.getText().contains(String.valueOf(Context.get(keyName))));
+    @И("на странице {string} отображается {string} с ранее сохраненным именем проекта по ключу {string}")
+    public void checkNameProject(String pageName, String fieldName, String projectStashId) {
+        List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
+        Project project = Context.get(projectStashId, Project.class);
+        Assert.assertTrue(elements.stream()
+                .map(element -> element.getText())
+                .anyMatch(name -> name.equals(project.getName())));
     }
 
-    @И("на странице {string} не отображается {string} с ранее сохраненным именем по ключу {string}")
-    public void checkAbsentNameProject(String pageName, String fieldName, String keyName) {
-        WebElement element = CucumberPageObjectHelper.getElementBy(pageName, fieldName);
-        Assert.assertFalse(element.getText().contains(String.valueOf(Context.get(keyName))));
+    @И("на странице {string} не отображается {string} с ранее сохраненным именем проекта по ключу {string}")
+    public void checkAbsentNameProject(String pageName, String fieldName, String projectStashId) {
+        List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
+        Project project = Context.get(projectStashId, Project.class);
+        Assert.assertTrue(elements.stream()
+                .map(element -> element.getText())
+                .noneMatch(name -> name.equals(project.getName())));
     }
 
 }
