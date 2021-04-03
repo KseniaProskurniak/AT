@@ -15,7 +15,7 @@ import redmine.ui.pages.LoginPage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SortByNameAndFamilyByAdminTest {
+public class SortByFirstNameAndLastNameByAdminTest {
 
     private WebDriver webDriver;
     private User admin;
@@ -54,8 +54,6 @@ public class SortByNameAndFamilyByAdminTest {
                 .collect(Collectors.toList());
         List<String> sortedUserFirstNames = userFirstNames.stream().sorted().collect(Collectors.toList());
         Assert.assertNotEquals(sortedUserFirstNames, userFirstNames);
-        System.out.println(userFirstNames);
-        System.out.println(sortedUserFirstNames);
     }
 
 
@@ -67,8 +65,6 @@ public class SortByNameAndFamilyByAdminTest {
                 .collect(Collectors.toList());
         List<String> sortedUserLastNames = userLastNames.stream().sorted().collect(Collectors.toList());
         Assert.assertNotEquals(sortedUserLastNames, userLastNames);
-        System.out.println(userLastNames);
-        System.out.println(sortedUserLastNames);
     }
 
     @Test(dependsOnMethods = "testDescSortByLastName")
@@ -82,8 +78,6 @@ public class SortByNameAndFamilyByAdminTest {
         List<String> sortedUserFirstNames = userFirstNames.stream()
                 .sorted((n1,n2) -> n1.compareToIgnoreCase(n2))
                 .collect(Collectors.toList());
-        System.out.println(userFirstNames);
-        System.out.println(sortedUserFirstNames);
         Assert.assertEquals(sortedUserFirstNames, userFirstNames);
     }
 
@@ -96,11 +90,8 @@ public class SortByNameAndFamilyByAdminTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
         List<String> sortedUserFirstNames = userFirstNames.stream()
-                .sorted((n1,n2) -> n1.compareToIgnoreCase(n2)*(-1))
-                //.sorted((n1,n2) -> n2.compareToIgnoreCase(n1))
+                .sorted((n1,n2) -> n2.compareToIgnoreCase(n1))
                 .collect(Collectors.toList());
-        System.out.println(userFirstNames);
-        System.out.println(sortedUserFirstNames);
         Assert.assertEquals(sortedUserFirstNames, userFirstNames);
     }
 
@@ -115,10 +106,7 @@ public class SortByNameAndFamilyByAdminTest {
         List<String> sortedUserLastNames = userLastNames.stream()
                 .sorted((n1,n2) -> n1.compareToIgnoreCase(n2))
                 .collect(Collectors.toList());
-        System.out.println(userLastNames);
-        System.out.println(sortedUserLastNames);
         Assert.assertEquals(sortedUserLastNames, userLastNames);
-
     }
 
     @Test(dependsOnMethods = "testSortByLastName")
@@ -132,8 +120,6 @@ public class SortByNameAndFamilyByAdminTest {
         List<String> sortedUserLastNames = userLastNames.stream()
                 .sorted((n1,n2) -> n2.compareToIgnoreCase(n1))
                 .collect(Collectors.toList());
-        System.out.println(userLastNames);
-        System.out.println(sortedUserLastNames);
         Assert.assertEquals(sortedUserLastNames, userLastNames);
     }
 
