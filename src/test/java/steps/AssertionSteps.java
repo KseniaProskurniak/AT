@@ -11,6 +11,7 @@ import redmine.model.project.Project;
 import redmine.model.user.User;
 import redmine.ui.pages.HomePage;
 import redmine.ui.pages.NewUserPage;
+import redmine.ui.pages.PageConstant;
 import redmine.ui.pages.helpers.CucumberPageObjectHelper;
 import redmine.ui.pages.helpers.Pages;
 import redmine.utils.BrowserUtils;
@@ -131,6 +132,12 @@ public class AssertionSteps {
         Assert.assertEquals(path, webDriver.getCurrentUrl(), "Отображена неверная страница");
     }
 
+    @И("открыта страница {string}")
+    public void checkPageByName(String pageName) {
+        Assert.assertEquals(PageConstant.PAGE_URLS.get(pageName), webDriver.getCurrentUrl(),
+                "Отображена неверная страница");
+    }
+
     @И("на странице {string} отображается {string} с ранее сохраненным именем проекта по ключу {string}")
     public void checkNameProject(String pageName, String fieldName, String projectStashId) {
         List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
@@ -149,6 +156,10 @@ public class AssertionSteps {
                 .noneMatch(name -> name.equals(project.getName())));
     }
 
+    @И("таблица с пользователями не отсортирована по {string}")
+    public void checkUnsorted(String column) {
+
+    }
 }
 
 
