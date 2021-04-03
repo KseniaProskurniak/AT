@@ -18,8 +18,11 @@ import redmine.utils.BrowserUtils;
 import redmine.utils.StringGenerators;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssertionSteps {
+
+    private static final String CURRENT_PAGE = "CURRENT_PAGE";
 
     WebDriver webDriver = Manager.driver();
 
@@ -134,8 +137,9 @@ public class AssertionSteps {
 
     @И("открыта страница {string}")
     public void checkPageByName(String pageName) {
-        Assert.assertEquals(PageConstant.PAGE_URLS.get(pageName), webDriver.getCurrentUrl(),
-                "Отображена неверная страница");
+        String currentUrl = webDriver.getCurrentUrl();
+        Assert.assertEquals(PageConstant.PAGE_URLS.get(pageName), currentUrl, "Отображена неверная страница");
+        Context.put(CURRENT_PAGE, pageName);
     }
 
     @И("на странице {string} отображается {string} с ранее сохраненным именем проекта по ключу {string}")
@@ -156,9 +160,53 @@ public class AssertionSteps {
                 .noneMatch(name -> name.equals(project.getName())));
     }
 
-    @И("таблица с пользователями не отсортирована по {string}")
-    public void checkUnsorted(String column) {
 
+    @И("таблица с пользователями не отсортирована по полю {string}")
+    public void checkUnsorted(String fieldName) {
+        String pageName = (String) Context.get(CURRENT_PAGE);
+        List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
+        List<String> names = elements.stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+        List<String> sortedNames = names.stream()
+                .sorted((n1, n2) -> n1.compareToIgnoreCase(n2))
+                .collect(Collectors.toList());
+        Assert.assertNotEquals(sortedNames, names);
+    }
+
+
+    @И("таблица с пользователями отсортирована по полю {string} по возрастанию")
+    public void checkSorted(String fieldName) {
+        String pageName = (String) Context.get(CURRENT_PAGE);
+        List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
+        List<String> names = elements.stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+        List<String> sortedNames = names.stream()
+                .sorted((n1, n2) -> n1.compareToIgnoreCase(n2))
+                .collect(Collectors.toList());
+        Assert.assertEquals(sortedNames, names);
+    }
+
+    @И("таблица с пользователями отсортирована по полю {string} по убыванию")
+    public void checkDescSorted(String fieldName) {
+        String pageName = (String) Context.get(CURRENT_PAGE);
+        List<WebElement> elements = CucumberPageObjectHelper.getElementsBy(pageName, fieldName);
+        List<String> names = elements.stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+        List<String> sortedNames = names.stream()
+                .sorted((n1, n2) -> n2.compareToIgnoreCase(n1))
+                .collect(Collectors.toList());
+        Assert.assertEquals(sortedNames, names);
+    }
+
+
+    @И("в шапке таблицы нажать на заголовок {string}")
+    public void clickTableColumn(String columnName) {
+        String pageName = (String) Context.get(CURRENT_PAGE);
+        WebElement element = CucumberPageObjectHelper.getElementBy(pageName, columnName);
+        element.click();
     }
 }
 

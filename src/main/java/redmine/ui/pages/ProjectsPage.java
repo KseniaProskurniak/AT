@@ -7,7 +7,7 @@ import redmine.ui.pages.helpers.CucumberName;
 import java.util.List;
 
 @CucumberName("Проекты")
-public class ProjectPage extends AbstractPage {
+public class ProjectsPage extends AbstractPage {
 
     @CucumberName("Проекты")
     @FindBy(xpath = "//div[@id='content']//*[text() = 'Проекты']")
