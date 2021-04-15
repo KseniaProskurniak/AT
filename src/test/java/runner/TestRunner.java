@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 @Listeners({TestNGListenerImpl.class})
 public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
-    //TODO изменить на ThreadLocal
+
     private static String testCaseName;
 
     @BeforeClass(alwaysRun = true)
