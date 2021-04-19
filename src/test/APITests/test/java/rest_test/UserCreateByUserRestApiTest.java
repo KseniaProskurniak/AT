@@ -17,12 +17,12 @@ public class UserCreateByUserRestApiTest {
     private User byUser;
 
     @BeforeClass
-    void init(){
+    void init() {
         byUser = new User().create();
     }
 
     @AfterClass
-    void drop(){
+    void drop() {
         byUser.delete();
     }
 

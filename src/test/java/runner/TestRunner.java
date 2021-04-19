@@ -11,7 +11,7 @@ import redmine.managers.Manager;
 
 import java.lang.reflect.Method;
 
-@CucumberOptions (
+@CucumberOptions(
         plugin = {
                 "pretty",
                 "io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm",
@@ -24,8 +24,6 @@ import java.lang.reflect.Method;
 @Listeners({TestNGListenerImpl.class})
 public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
 
-
-    private static String testCaseName;
 
     @BeforeClass(alwaysRun = true)
     @Override
@@ -50,10 +48,6 @@ public class TestRunner extends AbstractTestNGCucumberTests implements ITest {
         super.tearDownClass();
     }
 
-    @BeforeMethod
-    public void beforeMethod(Method name, Object[] testData) {
-        testCaseName = testData[0].toString();
-    }
 
     @AfterMethod
     public void afterMethod(Method name, Object[] testDate) {

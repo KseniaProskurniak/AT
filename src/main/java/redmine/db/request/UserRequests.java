@@ -61,7 +61,7 @@ public class UserRequests {
     }
 
     @SneakyThrows
-    public static void deleteUser(User user){
+    public static void deleteUser(User user) {
         String query = "DELETE FROM public.users WHERE id = ?;";
         PreparedStatement prepared = Manager.dbConnection.getConnection().prepareStatement(query);
         prepared.setInt(1, user.getId());

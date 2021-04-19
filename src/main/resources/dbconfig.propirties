@@ -1,6 +1,0 @@
-# Параметры подключения к БД
-db.host=edu-at.dfu.i-teco.ru
-db.port=5432
-db.user=redmine_user
-db.pass=redmine_pass
-db.name=db

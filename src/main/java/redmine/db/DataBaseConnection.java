@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
+
 @Slf4j
 
 public class DataBaseConnection {
@@ -29,7 +30,7 @@ public class DataBaseConnection {
     private void initVariables() {
         Properties properties = new Properties();
         try {
-            FileInputStream fileInputStream = new FileInputStream("src/main/resources/dbconfig.propirties");
+            FileInputStream fileInputStream = new FileInputStream("src/main/resources/dbconfig.properties");
             properties.load(fileInputStream);
             dbHost = properties.getProperty("db.host");
             dbPort = Integer.parseInt(properties.getProperty("db.port"));
@@ -41,11 +42,19 @@ public class DataBaseConnection {
         }
     }
 
-    @SneakyThrows
     private void connect() {
-        Class.forName("org.postgresql.Driver");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String url = String.format("jdbc:postgresql://%s:%d/%s?user=%s&password=%s", dbHost, dbPort, dbName, dbUser, dbPass);
-        connection = DriverManager.getConnection(url);
+        try {
+            connection = DriverManager.getConnection(url);
+        } catch (SQLException throwables) {
+            throw new RuntimeException(throwables);
+        }
+
     }
 
     @SneakyThrows

@@ -60,7 +60,7 @@ public class Project {
     }
 
     public List<Member> getMembers() {
-        if(members == null){
+        if (members == null) {
             members = MemberRequests.getByProject(this);
         }
         return members;

@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class UserCreationError {
     private Integer id;
     private String name;
-   @NonNull
+    @NonNull
     private String firstName;
     private String lastName;
 

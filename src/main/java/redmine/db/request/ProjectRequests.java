@@ -56,7 +56,7 @@ public class ProjectRequests {
                     .setInheritMembers(resultSet.getBoolean("inherit_members"))
                     .setDefaultVersionId(resultSet.getInt("default_version_id"))
                     .setDefaultAssignedToId(resultSet.getInt("default_assigned_to_id"));
-          //  project.setMembers(MemberRequests.getByProject(project));
+            //  project.setMembers(MemberRequests.getByProject(project));
         }
         return project;
     }

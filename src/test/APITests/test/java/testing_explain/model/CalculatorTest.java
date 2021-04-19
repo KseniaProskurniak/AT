@@ -20,7 +20,7 @@ public class CalculatorTest {
     @DataProvider(name = "negativeProvider", parallel = true)
     public static Object[][] negativeProvider() {
         return new Object[][]
-                {       {6, 0},
+                {{6, 0},
                         {0, 0}
                 };
     }

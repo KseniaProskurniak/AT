@@ -5,7 +5,7 @@ import redmine.api.interfaces.Request;
 
 import java.util.Map;
 
-public class RestRequest implements Request{
+public class RestRequest implements Request {
     private String uri;
     private HttpMethods method;
     private Map<String, String> parameters;
@@ -13,7 +13,7 @@ public class RestRequest implements Request{
 
     @Override
     public String getUri() {
-    return null;
+        return null;
     }
 
     @Override

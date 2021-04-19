@@ -28,6 +28,4 @@ public class AdministrationUsersPage extends AbstractPage {
     public WebElement userButton;
 
 
-
-
 }
